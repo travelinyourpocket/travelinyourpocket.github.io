@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>개인정보처리방침 - Travel In your Pocket</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0f1e;
+      --surface: #111827;
+      --accent: #f0a500;
+      --text: #f0ede6;
+      --muted: #8a8f9e;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+    }
+    .grid-lines {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(240,165,0,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240,165,0,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 0;
+      pointer-events: none;
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 24px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+      background: linear-gradient(to bottom, rgba(10,15,30,0.95), transparent);
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+    nav a.back {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav a.back:hover { color: var(--accent); }
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 140px 40px 80px;
+    }
+    .page-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(240,165,0,0.3);
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+    .updated {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 60px;
+    }
+    .section {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 36px;
+      margin-bottom: 20px;
+    }
+    .section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+      color: var(--accent);
+    }
+    .section p, .section li {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      font-weight: 300;
+    }
+    .section ul { padding-left: 20px; }
+    .section li { margin-bottom: 8px; }
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 40px 60px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    footer p { color: var(--muted); font-size: 0.85rem; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+    @media (max-width: 768px) {
+      nav { padding: 20px 24px; }
+      .container { padding: 120px 24px 60px; }
+      footer { padding: 40px 24px; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-lines"></div>
+  <nav>
+    <a href="./index.html" class="logo">T<span>.</span>i<span>.</span>P</a>
+    <a href="./index.html" class="back">← 홈으로</a>
+  </nav>
+
+  <div class="container">
+    <div class="page-tag">Privacy Policy</div>
+    <h1>개인정보처리방침</h1>
+    <p class="updated">최종 업데이트: 2025년 3월 5일</p>
+
+    <div class="section">
+      <h2>1. 개인정보처리방침이란?</h2>
+      <p>Travel In your Pocket은 사용자의 개인정보를 소중히 여기며, 개인정보 보호법 및 관련 법령에 따라 아래와 같이 개인정보처리방침을 수립하고 있습니다.</p>
+    </div>
+
+    <div class="section">
+      <h2>2. 수집하는 개인정보 항목</h2>
+      <ul>
+        <li>Google 계정 이메일 주소 (로그인 및 사용자 식별)</li>
+        <li>Google 프로필 이름 (앱 내 사용자 표시)</li>
+        <li>위치 정보 선택 (실시간 위치 기반 지도 서비스, 사용자 동의 시)</li>
+        <li>나만의 지도 저장 스팟, 투표 기록 등 사용자 생성 데이터</li>
+        <li>YouTube 구독 정보 (서비스 이용 자격 확인 목적)</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>3. 수집 목적</h2>
+      <ul>
+        <li>Google 계정을 통한 로그인 및 본인 확인</li>
+        <li>나만의 지도, 투표 등 개인화 서비스 제공</li>
+        <li>사용자별 저장 데이터 관리 및 복원</li>
+        <li>YouTube 구독 여부를 통한 서비스 접근 권한 확인</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>4. Google API 서비스 이용</h2>
+      <p>본 앱은 Google OAuth 2.0을 통해 사용자 인증을 처리하며, 수집된 데이터는 제3자에게 공유, 판매, 광고 목적으로 사용되지 않습니다.</p>
+    </div>
+
+    <div class="section">
+      <h2>5. 문의</h2>
+      <p>이메일: <a href="mailto:roadgationvn@gmail.com" style="color: var(--accent);">roadgationvn@gmail.com</a></p>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Travel In your Pocket. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="./index.html">홈</a>
+      <a href="./terms.html">서비스 약관</a>
+    </div>
+  </footer>
+</body>
+</html>
