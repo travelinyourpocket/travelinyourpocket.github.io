@@ -142,6 +142,8 @@
       font-size: 0.85rem;
       font-weight: 500;
       transition: all 0.2s;
+      text-decoration: none;
+      cursor: pointer;
     }
     .city-tag:hover {
       background: rgba(240,165,0,0.15);
@@ -152,6 +154,10 @@
       border-color: rgba(138,143,158,0.2);
       background: rgba(138,143,158,0.05);
       font-size: 0.78rem;
+      cursor: default;
+    }
+    .city-tag.soon:hover {
+      transform: none;
     }
 
     /* Features */
@@ -216,7 +222,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: gap;
+      flex-wrap: wrap;
       gap: 20px;
     }
     footer p { color: var(--muted); font-size: 0.85rem; }
@@ -243,7 +249,7 @@
 
   <nav>
     <div class="logo">T<span>.</span>i<span>.</span>P</div>
-    <a href="/cdn-cgi/l/email-protection#b3c1dcd2d7d4d2c7dadcddc5ddf3d4ded2dadf9dd0dcde">Contact</a>
+    <a href="mailto:roadgationhn@gmail.com">Contact</a>
   </nav>
 
   <section class="hero">
@@ -255,7 +261,7 @@
         AI와 함께 스마트하게 탐색하는 여행 지도 앱
       </p>
       <div class="cities">
-        <span class="city-tag">🇻🇳 하노이</span>
+        <a href="https://script.google.com/macros/s/AKfycbx_BgCYSTPX3I0YS3egAYiaeOcDtWNIBfirANvIhSxX90N09YJIz1DGoxldEud19Dho/exec" target="_blank" class="city-tag">🇻🇳 하노이</a>
         <span class="city-tag">🇻🇳 다낭</span>
         <span class="city-tag">🇹🇭 방콕</span>
         <span class="city-tag soon">+ 더 많은 도시 준비 중</span>
@@ -290,4 +296,8 @@
     <div class="footer-links">
       <a href="./privacy.html">개인정보처리방침</a>
       <a href="./terms.html">서비스 약관</a>
-      <a href="/cdn-cgi/l/email-protection#9ae8f5fb
+      <a href="mailto:roadgationhn@gmail.com">Contact</a>
+    </div>
+  </footer>
+</body>
+</html>
