@@ -3,253 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- OG 태그 (카카오톡 미리보기) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://travelinyourpocket.net">
+  <meta property="og:title" content="Travel In your Pocket">
+  <meta property="og:description" content="여행지의 맛집, 카페, 관광지를 AI와 함께 스마트하게 탐색하세요 🗺️">
+  <meta property="og:image" content="https://travelinyourpocket.net/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:site_name" content="Travel In your Pocket">
+
   <title>Travel In your Pocket</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
   <style>
-    :root {
-      --bg: #0a0f1e;
-      --surface: #111827;
-      --accent: #f0a500;
-      --accent2: #e05c3a;
-      --text: #f0ede6;
-      --muted: #8a8f9e;
-    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      overflow-x: hidden;
-    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1923; color: white; }
 
-    /* Background */
-    .bg-globe {
-      position: fixed;
-      top: -100px;
-      right: -150px;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 40% 40%, #1a2a4a, #0a0f1e 70%);
-      border: 1px solid rgba(240,165,0,0.1);
-      box-shadow: inset 0 0 80px rgba(240,165,0,0.05), 0 0 120px rgba(240,165,0,0.05);
-      z-index: 0;
-      animation: rotateGlobe 30s linear infinite;
-    }
-    @keyframes rotateGlobe {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    .grid-lines {
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(240,165,0,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(240,165,0,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      z-index: 0;
-    }
-
-    /* Nav */
     nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      padding: 24px 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 100;
-      background: linear-gradient(to bottom, rgba(10,15,30,0.9), transparent);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 40px; background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);
     }
-    .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      letter-spacing: 0.02em;
-      color: var(--text);
-    }
-    .logo span { color: var(--accent); }
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    nav a:hover { color: var(--accent); }
+    .logo { font-size: 20px; font-weight: 700; color: white; text-decoration: none; }
+    .logo span { color: #4285f4; }
+    nav a { color: rgba(255,255,255,0.7); text-decoration: none; margin-left: 24px; font-size: 14px; }
 
-    /* Hero */
     .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 0 60px;
-      z-index: 1;
+      min-height: 90vh; display: flex; align-items: center;
+      padding: 80px 40px; max-width: 1100px; margin: 0 auto;
     }
-    .hero-content {
-      max-width: 650px;
-      animation: fadeUp 1s ease both;
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .hero-content { max-width: 580px; }
     .hero-tag {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--accent);
-      border: 1px solid rgba(240,165,0,0.3);
-      padding: 6px 16px;
-      border-radius: 20px;
-      margin-bottom: 32px;
+      display: inline-block; background: rgba(66,133,244,0.15);
+      border: 1px solid rgba(66,133,244,0.4); color: #4285f4;
+      padding: 6px 16px; border-radius: 20px; font-size: 14px; margin-bottom: 28px;
     }
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 6vw, 5.5rem);
-      line-height: 1.05;
-      margin-bottom: 28px;
-      letter-spacing: -0.02em;
-    }
-    h1 em {
-      font-style: italic;
-      color: var(--accent);
-    }
-    .hero-desc {
-      font-size: 1.1rem;
-      color: var(--muted);
-      line-height: 1.8;
-      margin-bottom: 48px;
-      font-weight: 300;
-    }
-    .cities {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 48px;
-    }
+    h1 { font-size: 72px; font-weight: 900; line-height: 1.1; margin-bottom: 24px; }
+    h1 em { color: #4285f4; font-style: normal; }
+    .hero-desc { font-size: 18px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 36px; }
+    .cities { display: flex; flex-wrap: wrap; gap: 10px; }
     .city-tag {
-      background: rgba(240,165,0,0.08);
-      border: 1px solid rgba(240,165,0,0.2);
-      color: var(--accent);
-      padding: 8px 18px;
-      border-radius: 30px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      transition: all 0.2s;
-      text-decoration: none;
-      cursor: pointer;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+      padding: 8px 18px; border-radius: 20px; font-size: 14px;
+      color: rgba(255,255,255,0.8); text-decoration: none;
     }
-    .city-tag:hover {
-      background: rgba(240,165,0,0.15);
-      transform: translateY(-2px);
-    }
-    .city-tag.soon {
-      color: var(--muted);
-      border-color: rgba(138,143,158,0.2);
-      background: rgba(138,143,158,0.05);
-      font-size: 0.78rem;
-      cursor: default;
-    }
-    .city-tag.soon:hover {
-      transform: none;
-    }
+    a.city-tag:hover { background: rgba(66,133,244,0.2); border-color: #4285f4; }
+    .city-tag.soon { color: rgba(255,255,255,0.4); font-size: 13px; }
 
-    /* Features */
-    .features {
-      position: relative;
-      z-index: 1;
-      padding: 100px 60px;
-    }
-    .section-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 16px;
-    }
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      margin-bottom: 60px;
-      max-width: 500px;
-      line-height: 1.2;
-    }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-    }
+    .features { padding: 80px 40px; max-width: 1100px; margin: 0 auto; }
+    .section-label { color: #4285f4; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+    .section-title { font-size: 40px; font-weight: 800; margin-bottom: 48px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
     .feature-card {
-      background: var(--surface);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 16px;
-      padding: 36px;
-      transition: all 0.3s;
-      position: relative;
-      overflow: hidden;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 32px; transition: transform 0.2s;
     }
-    .feature-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .feature-card:hover { transform: translateY(-4px); border-color: rgba(240,165,0,0.2); }
-    .feature-card:hover::before { opacity: 1; }
-    .feature-icon { font-size: 2rem; margin-bottom: 20px; }
-    .feature-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-      margin-bottom: 12px;
-    }
-    .feature-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.7; font-weight: 300; }
+    .feature-card:hover { transform: translateY(-4px); }
+    .feature-icon { font-size: 36px; margin-bottom: 16px; }
+    .feature-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .feature-desc { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.6; }
 
-    /* Footer */
     footer {
-      position: relative;
-      z-index: 1;
-      padding: 60px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 20px;
+      text-align: center; padding: 40px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.35); font-size: 13px;
     }
-    footer p { color: var(--muted); font-size: 0.85rem; }
-    .footer-links { display: flex; gap: 24px; }
-    .footer-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--accent); }
-
-    @media (max-width: 768px) {
-      nav { padding: 20px 24px; }
-      .hero { padding: 100px 24px 60px; }
-      .features { padding: 60px 24px; }
-      footer { padding: 40px 24px; flex-direction: column; align-items: flex-start; }
-    }
+    .footer-links { margin-top: 12px; }
+    .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; margin: 0 12px; }
+    .footer-links a:hover { color: rgba(255,255,255,0.7); }
   </style>
 </head>
 <body>
-  <div class="grid-lines"></div>
-  <div class="bg-globe"></div>
-
   <nav>
-    <div class="logo">T<span>.</span>i<span>.</span>P</div>
-    <a href="mailto:roadgationhn@gmail.com">Contact</a>
+    <a href="/" class="logo">Travel In your <span>Pocket</span></a>
+    <div>
+      <a href="./privacy.html">개인정보처리방침</a>
+      <a href="./terms.html">이용약관</a>
+      <a href="mailto:roadgationhn@gmail.com">Contact</a>
+    </div>
   </nav>
 
   <section class="hero">
