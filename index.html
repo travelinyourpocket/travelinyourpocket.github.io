@@ -90,6 +90,18 @@
     }
     .toast.show { opacity: 1; }
   </style>
+  <!-- 🔗 공유 URL 파라미터 처리 → GAS 앱으로 리다이렉트 -->
+  <script>
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const hasSpot = params.has('spot');
+      const hasShare = params.has('shareCategory');
+      if (hasSpot || hasShare) {
+        // GAS URL에 파라미터 그대로 전달
+        window.location.replace('https://script.google.com/macros/s/AKfycbx_BgCYSTPX3I0YS3egAYiaeOcDtWNIBfirANvIhSxX90N09YJIz1DGoxldEud19Dho/exec?' + params.toString());
+      }
+    })();
+  </script>
 </head>
 <body>
   <nav>
