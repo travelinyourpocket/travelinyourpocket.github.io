@@ -21,15 +21,6 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1923; color: white; }
 
-    nav {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 20px 40px; background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .logo { font-size: 20px; font-weight: 700; color: white; text-decoration: none; }
-    .logo span { color: #4285f4; }
-    nav a { color: rgba(255,255,255,0.7); text-decoration: none; margin-left: 24px; font-size: 14px; }
-
     .hero {
       min-height: 90vh; display: flex; align-items: center;
       padding: 40px 40px; max-width: 1100px; margin: 0 auto;
@@ -47,10 +38,10 @@
     .city-tag {
       background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
       padding: 8px 18px; border-radius: 20px; font-size: 14px;
-      color: rgba(255,255,255,0.8); text-decoration: none;
+      color: rgba(255,255,255,0.8); text-decoration: none; cursor: pointer;
     }
-    a.city-tag:hover { background: rgba(66,133,244,0.2); border-color: #4285f4; }
-    .city-tag.soon { color: rgba(255,255,255,0.4); font-size: 13px; }
+    .city-tag:hover { background: rgba(66,133,244,0.2); border-color: #4285f4; }
+    .city-tag.soon { color: rgba(255,255,255,0.4); font-size: 13px; cursor: default; }
     .city-tag.coming-soon { cursor: not-allowed; opacity: 0.5; pointer-events: none; }
     .city-tag.coming-soon small { font-size: 11px; color: rgba(255,255,255,0.6); }
 
@@ -76,18 +67,45 @@
     .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; margin: 0 12px; }
     .footer-links a:hover { color: rgba(255,255,255,0.7); }
 
-    .toast {
-      position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
-      background: rgba(30,30,50,0.95); border: 1px solid rgba(255,255,255,0.15);
-      color: white; padding: 14px 28px; border-radius: 30px;
-      font-size: 15px; font-weight: 500;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.3s ease;
-      z-index: 9999; white-space: nowrap;
+    /* 모바일 카카오톡 안내 모달 */
+    .kakao-modal-overlay {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 10000;
+      align-items: center; justify-content: center;
+      padding: 24px;
     }
-    .toast.show { opacity: 1; }
+    .kakao-modal-overlay.show { display: flex; }
+    .kakao-modal {
+      background: #1a2332;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      padding: 36px 28px;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+    }
+    .kakao-modal .icon { font-size: 56px; margin-bottom: 16px; }
+    .kakao-modal h2 { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
+    .kakao-modal p { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 28px; }
+    .kakao-btn {
+      display: block; width: 100%;
+      background: #FEE500; color: #3c1e1e;
+      border: none; border-radius: 14px;
+      padding: 16px; font-size: 16px; font-weight: 800;
+      cursor: pointer; margin-bottom: 12px;
+      text-decoration: none;
+    }
+    .kakao-btn:hover { background: #f5d800; }
+    .kakao-close {
+      display: block; width: 100%;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.5);
+      border: none; border-radius: 14px;
+      padding: 14px; font-size: 14px;
+      cursor: pointer;
+    }
   </style>
 
   <!-- 🔗 공유 URL 파라미터 처리 → app.html로 리다이렉트 -->
@@ -113,7 +131,7 @@
         AI와 함께 스마트하게 탐색하는 여행 지도 앱
       </p>
       <div class="cities">
-        <a href="/app.html?country=베트남&city=하노이" class="city-tag">🇻🇳 하노이</a>
+        <span class="city-tag" onclick="openCity()">🇻🇳 하노이</span>
         <span class="city-tag coming-soon">🇻🇳 다낭 <small>(서비스 준비중)</small></span>
         <span class="city-tag coming-soon">🇹🇭 방콕 <small>(서비스 준비중)</small></span>
         <span class="city-tag soon">+ 더 많은 도시 준비 중</span>
@@ -151,15 +169,52 @@
     </div>
   </footer>
 
-  <div class="toast" id="toast"></div>
+  <!-- 모바일 카카오톡 안내 모달 -->
+  <div class="kakao-modal-overlay" id="kakaoModal">
+    <div class="kakao-modal">
+      <div class="icon">💬</div>
+      <h2>카카오톡으로 열어주세요!</h2>
+      <p>모바일 브라우저에서는 정상적으로 열리지 않아요.<br>카카오톡으로 링크를 전송한 뒤 열어주세요 😊</p>
+      <button class="kakao-btn" onclick="copyAndGuide()">
+        📋 링크 복사하기
+      </button>
+      <button class="kakao-close" onclick="closeKakaoModal()">닫기</button>
+    </div>
+  </div>
+
   <script>
-    function showComingSoon(el) {
-      const city = el.textContent.trim();
-      const toast = document.getElementById('toast');
-      toast.textContent = '✈️ ' + city + ' 서비스 준비 중이에요! 조금만 기다려 주세요 😊';
-      toast.classList.add('show');
-      clearTimeout(window._toastTimer);
-      window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
+    const APP_URL = 'https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec?country=베트남&city=하노이';
+
+    function isMobile() {
+      return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    }
+
+    function openCity() {
+      if (isMobile()) {
+        document.getElementById('kakaoModal').classList.add('show');
+      } else {
+        window.location.href = APP_URL;
+      }
+    }
+
+    function copyAndGuide() {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(APP_URL).then(() => {
+          alert('링크가 복사됐어요! 카카오톡 채팅창에 붙여넣기 후 열어주세요 😊');
+        });
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = APP_URL;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        alert('링크가 복사됐어요! 카카오톡 채팅창에 붙여넣기 후 열어주세요 😊');
+      }
+    }
+
+    function closeKakaoModal() {
+      document.getElementById('kakaoModal').classList.remove('show');
     }
   </script>
 </body>
