@@ -94,8 +94,6 @@
     .kakao-modal .icon { font-size: 56px; margin-bottom: 16px; }
     .kakao-modal h2 { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
     .kakao-modal p { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 28px; }
-
-    /* 카카오 공유 버튼 */
     .kakao-share-btn {
       display: block; width: 100%;
       background: #FEE500; color: #3c1e1e;
@@ -105,8 +103,6 @@
       text-decoration: none;
     }
     .kakao-share-btn:hover { background: #f5d800; }
-
-    /* 링크 복사 버튼 */
     .kakao-btn {
       display: block; width: 100%;
       background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8);
@@ -116,7 +112,6 @@
       text-decoration: none;
     }
     .kakao-btn:hover { background: rgba(255,255,255,0.15); }
-
     .kakao-close {
       display: block; width: 100%;
       background: rgba(255,255,255,0.05);
@@ -192,17 +187,12 @@
       <div class="icon">💬</div>
       <h2>카카오톡으로 열어주세요!</h2>
       <p>모바일 브라우저에서는 정상적으로 열리지 않아요.<br>카카오톡으로 링크를 전송한 뒤 열어주세요 😊</p>
-
-      <!-- 카카오톡으로 나에게 보내기 버튼 -->
       <button class="kakao-share-btn" onclick="sendToMyKakao()">
         💛 카카오톡으로 보내기
       </button>
-
-      <!-- 링크 복사 버튼 -->
       <button class="kakao-btn" onclick="copyAndGuide()">
         📋 링크 복사하기
       </button>
-
       <button class="kakao-close" onclick="closeKakaoModal()">닫기</button>
     </div>
   </div>
@@ -210,8 +200,8 @@
   <script>
     let currentCityUrl = '';
 
-    // 카카오 SDK 초기화
-    Kakao.init('1406967');
+    // ✅ travelinyourpocket JavaScript 키
+    Kakao.init('88ea97bce763b0c76dd347c5378bed31');
 
     function isMobile() {
       return /Android|iPhone|iPad|iPod|Mobile|Samsung/i.test(navigator.userAgent);
@@ -226,11 +216,27 @@
       }
     }
 
-    // 나에게 보내기
     function sendToMyKakao() {
-      Kakao.Share.sendScrap({
-        requestUrl: currentCityUrl,
-        templateId: undefined,
+      Kakao.Share.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: 'Travel In your Pocket ✈️',
+          description: '하노이 맛집, 카페, 관광지를 AI와 함께 스마트하게 탐색해보세요!',
+          imageUrl: 'https://travelinyourpocket.net/og.jpg',
+          link: {
+            mobileWebUrl: currentCityUrl,
+            webUrl: currentCityUrl,
+          },
+        },
+        buttons: [
+          {
+            title: '지금 바로 탐색하기 🗺️',
+            link: {
+              mobileWebUrl: currentCityUrl,
+              webUrl: currentCityUrl,
+            },
+          },
+        ],
       });
     }
 
