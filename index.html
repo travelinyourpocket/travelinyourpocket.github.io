@@ -67,22 +67,16 @@
     .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; margin: 0 12px; }
     .footer-links a:hover { color: rgba(255,255,255,0.7); }
 
-    /* 모바일 카카오톡 안내 모달 */
+    /* ✅ 원본과 100% 동일한 모달 CSS */
     .kakao-modal-overlay {
+      display: none;
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.75);
-      z-index: 99999;
-      display: flex;
+      z-index: 10000;
       align-items: center; justify-content: center;
       padding: 24px;
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 0.2s ease;
     }
-    .kakao-modal-overlay.show {
-      visibility: visible;
-      opacity: 1;
-    }
+    .kakao-modal-overlay.show { display: flex; }
     .kakao-modal {
       background: #1a2332;
       border: 1px solid rgba(255,255,255,0.12);
@@ -137,6 +131,7 @@
         AI와 함께 스마트하게 탐색하는 여행 지도 앱
       </p>
       <div class="cities">
+        <!-- ✅ GAS URL을 직접 인자로 전달. 도시 추가 시 이 패턴으로 복사해서 추가 -->
         <span class="city-tag" onclick="openCity('https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec?country=베트남&city=하노이')">🇻🇳 하노이</span>
         <span class="city-tag coming-soon">🇻🇳 다낭 <small>(서비스 준비중)</small></span>
         <span class="city-tag coming-soon">🇹🇭 방콕 <small>(서비스 준비중)</small></span>
@@ -189,28 +184,25 @@
   </div>
 
   <script>
-    // 현재 클릭된 도시의 GAS URL을 저장
+    // ✅ 클릭한 도시의 GAS URL 저장용
     let currentCityUrl = '';
 
+    // ✅ 원본과 동일한 isMobile (잘 작동했던 그대로)
     function isMobile() {
-      const ua = navigator.userAgent;
-      const byUA = /Android|iPhone|iPad|iPod|Mobile|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-      const byIPad = /Macintosh/i.test(ua) && navigator.maxTouchPoints > 1;
-      const byTouch = navigator.maxTouchPoints > 1 && window.innerWidth <= 768;
-      return byUA || byIPad || byTouch;
+      return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
     }
 
+    // ✅ 변경된 부분: GAS URL을 인자로 받아서 처리
     function openCity(gasUrl) {
       currentCityUrl = gasUrl;
       if (isMobile()) {
-        // 모바일: 카카오톡 안내 모달 표시
         document.getElementById('kakaoModal').classList.add('show');
       } else {
-        // 데스크탑: GAS URL로 직접 이동
         window.location.href = gasUrl;
       }
     }
 
+    // ✅ 복사 시 currentCityUrl 사용 (원본 로직 그대로)
     function copyAndGuide() {
       if (navigator.clipboard) {
         navigator.clipboard.writeText(currentCityUrl).then(() => {
