@@ -35,8 +35,6 @@
     h1 em { color: #4285f4; font-style: normal; }
     .hero-desc { font-size: 18px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 36px; }
     .cities { display: flex; flex-wrap: wrap; gap: 10px; }
-
-    /* ✅ button 태그용 스타일 (span 대신) */
     .city-tag {
       background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
       padding: 8px 18px; border-radius: 20px; font-size: 14px;
@@ -70,7 +68,6 @@
     .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; margin: 0 12px; }
     .footer-links a:hover { color: rgba(255,255,255,0.7); }
 
-    /* 모달 CSS - 원본 그대로 */
     .kakao-modal-overlay {
       display: none;
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -111,7 +108,6 @@
     }
   </style>
 
-  <!-- 🔗 공유 URL 파라미터 처리 → app.html로 리다이렉트 -->
   <script>
     (function() {
       const params = new URLSearchParams(window.location.search);
@@ -134,7 +130,6 @@
         AI와 함께 스마트하게 탐색하는 여행 지도 앱
       </p>
       <div class="cities">
-        <!-- ✅ span → button 으로 교체 (iOS/Android onclick 안정성 향상) -->
         <button class="city-tag" onclick="openCity('https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec?country=베트남&city=하노이')">🇻🇳 하노이</button>
         <button class="city-tag coming-soon" disabled>🇻🇳 다낭 <small>(서비스 준비중)</small></button>
         <button class="city-tag coming-soon" disabled>🇹🇭 방콕 <small>(서비스 준비중)</small></button>
@@ -173,7 +168,6 @@
     </div>
   </footer>
 
-  <!-- 모바일 카카오톡 안내 모달 -->
   <div class="kakao-modal-overlay" id="kakaoModal">
     <div class="kakao-modal">
       <div class="icon">💬</div>
@@ -195,8 +189,6 @@
 
     function openCity(gasUrl) {
       currentCityUrl = gasUrl;
-      // 🔍 디버그용 알럿 - 확인 후 제거 예정
-      alert('isMobile: ' + isMobile() + '\nUA: ' + navigator.userAgent.substring(0, 80));
       if (isMobile()) {
         document.getElementById('kakaoModal').classList.add('show');
       } else {
