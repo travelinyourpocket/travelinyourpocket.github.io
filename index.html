@@ -218,9 +218,15 @@
 
     function openCity(cityName) {
       currentCity = cityName;
-      if (isMobile()) {
+      const isKakao = /KAKAOTALK/i.test(navigator.userAgent);
+      if (isKakao) {
+        // 카카오톡 인앱브라우저면 바로 GAS로 이동
+        window.location.href = GAS_URLS[cityName];
+      } else if (isMobile()) {
+        // 일반 모바일 브라우저면 모달 표시
         document.getElementById('kakaoModal').classList.add('show');
       } else {
+        // 데스크탑이면 바로 GAS로 이동
         window.location.href = GAS_URLS[cityName];
       }
     }
