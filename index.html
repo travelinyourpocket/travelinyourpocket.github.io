@@ -242,7 +242,12 @@
     }
 
     function openKakao() {
-      window.location.href = 'kakaotalk://';
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      if (isAndroid) {
+        window.location.href = 'intent://kakaolink#Intent;scheme=kakaolink;package=com.kakao.talk;end';
+      } else {
+        window.location.href = 'kakaotalk://';
+      }
     }
 
     function closeKakaoModal() {
