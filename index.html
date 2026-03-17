@@ -109,7 +109,6 @@
       border: 1px solid rgba(255,255,255,0.2); border-radius: 14px;
       padding: 14px; font-size: 15px; font-weight: 600;
       cursor: pointer; margin-bottom: 10px;
-      text-decoration: none;
     }
     .kakao-btn:hover { background: rgba(255,255,255,0.15); }
     .kakao-close {
@@ -125,10 +124,25 @@
   <script>
     (function() {
       const params = new URLSearchParams(window.location.search);
+
+      // 공유 URL 파라미터 처리
       const hasSpot = params.has('spot');
       const hasShare = params.has('shareCategory');
       if (hasSpot || hasShare) {
         window.location.replace('/app.html?' + params.toString());
+        return;
+      }
+
+      // ✅ 카카오톡 인앱브라우저로 접속 + city 파라미터 있으면 GAS로 바로 이동
+      const city = params.get('city');
+      const isKakao = /KAKAOTALK/i.test(navigator.userAgent);
+      if (isKakao && city) {
+        const gasUrls = {
+          '하노이': 'https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec?country=베트남&city=하노이'
+        };
+        if (gasUrls[city]) {
+          window.location.replace(gasUrls[city]);
+        }
       }
     })();
   </script>
@@ -144,7 +158,7 @@
         AI와 함께 스마트하게 탐색하는 여행 지도 앱
       </p>
       <div class="cities">
-        <button class="city-tag" onclick="openCity('https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec?country=베트남&city=하노이')">🇻🇳 하노이</button>
+        <button class="city-tag" onclick="openCity('하노이')">🇻🇳 하노이</button>
         <button class="city-tag coming-soon" disabled>🇻🇳 다낭 <small>(서비스 준비중)</small></button>
         <button class="city-tag coming-soon" disabled>🇹🇭 방콕 <small>(서비스 준비중)</small></button>
         <span class="city-tag soon">+ 더 많은 도시 준비 중</span>
@@ -198,42 +212,49 @@
   </div>
 
   <script>
-    let currentCityUrl = '';
+    let currentCity = '';
 
-    // ✅ travelinyourpocket JavaScript 키
+    const GAS_URLS = {
+      '하노이': 'https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec?country=베트남&city=하노이'
+    };
+
     Kakao.init('88ea97bce763b0c76dd347c5378bed31');
 
     function isMobile() {
       return /Android|iPhone|iPad|iPod|Mobile|Samsung/i.test(navigator.userAgent);
     }
 
-    function openCity(gasUrl) {
-      currentCityUrl = gasUrl;
+    function openCity(cityName) {
+      currentCity = cityName;
       if (isMobile()) {
         document.getElementById('kakaoModal').classList.add('show');
       } else {
-        window.location.href = gasUrl;
+        window.location.href = GAS_URLS[cityName];
       }
     }
 
     function sendToMyKakao() {
+      // ✅ 카카오톡으로 보낼 링크: travelinyourpocket.net?city=하노이
+      // 카카오톡 인앱브라우저로 열리면 자동으로 GAS로 이동
+      const shareUrl = 'https://travelinyourpocket.net?city=' + encodeURIComponent(currentCity);
+
       Kakao.Share.sendDefault({
         objectType: 'feed',
         content: {
           title: 'Travel In your Pocket ✈️',
-          description: '하노이 맛집, 카페, 관광지를 AI와 함께 스마트하게 탐색해보세요!',
+          description: currentCity + ' 맛집, 카페, 관광지를 AI와 함께 스마트하게 탐색해보세요!',
           imageUrl: 'https://travelinyourpocket.net/og.jpg',
           link: {
-            mobileWebUrl: currentCityUrl,
-            webUrl: currentCityUrl,
+            mobileWebUrl: shareUrl,
+            webUrl: shareUrl,
           },
         },
         buttons: [
           {
             title: '지금 바로 탐색하기 🗺️',
             link: {
-              mobileWebUrl: currentCityUrl,
-              webUrl: currentCityUrl,
+              mobileWebUrl: shareUrl,
+              webUrl: shareUrl,
             },
           },
         ],
@@ -241,13 +262,14 @@
     }
 
     function copyAndGuide() {
+      const shareUrl = 'https://travelinyourpocket.net?city=' + encodeURIComponent(currentCity);
       if (navigator.clipboard) {
-        navigator.clipboard.writeText(currentCityUrl).then(() => {
+        navigator.clipboard.writeText(shareUrl).then(() => {
           alert('링크가 복사됐어요! 카카오톡 채팅창에 붙여넣기 후 열어주세요 😊');
         });
       } else {
         const ta = document.createElement('textarea');
-        ta.value = currentCityUrl;
+        ta.value = shareUrl;
         document.body.appendChild(ta);
         ta.select();
         document.execCommand('copy');
