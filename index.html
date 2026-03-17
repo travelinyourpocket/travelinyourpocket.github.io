@@ -88,20 +88,28 @@
     }
     .kakao-modal .icon { font-size: 56px; margin-bottom: 16px; }
     .kakao-modal h2 { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
-    .kakao-modal p { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 28px; }
+    .kakao-modal p { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 8px; }
+    .step-hint { font-size: 13px; color: rgba(255,255,255,0.35); margin-bottom: 24px; }
     .kakao-btn {
+      display: block; width: 100%;
+      background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.9);
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 14px;
+      padding: 15px; font-size: 15px; font-weight: 700;
+      cursor: pointer; margin-bottom: 10px;
+    }
+    .kakao-btn:hover { background: rgba(255,255,255,0.15); }
+    .kakao-open-btn {
       display: block; width: 100%;
       background: #FEE500; color: #3c1e1e;
       border: none; border-radius: 14px;
       padding: 16px; font-size: 16px; font-weight: 800;
       cursor: pointer; margin-bottom: 12px;
-      text-decoration: none;
     }
-    .kakao-btn:hover { background: #f5d800; }
+    .kakao-open-btn:hover { background: #f5d800; }
     .kakao-close {
       display: block; width: 100%;
-      background: rgba(255,255,255,0.08);
-      color: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.4);
       border: none; border-radius: 14px;
       padding: 14px; font-size: 14px;
       cursor: pointer;
@@ -111,16 +119,12 @@
   <script>
     (function() {
       const params = new URLSearchParams(window.location.search);
-
-      // 공유 URL 파라미터 처리
       const hasSpot = params.has('spot');
       const hasShare = params.has('shareCategory');
       if (hasSpot || hasShare) {
         window.location.replace('/app.html?' + params.toString());
         return;
       }
-
-      // ✅ 카카오톡 인앱브라우저로 접속 + city 파라미터 있으면 GAS로 바로 이동
       const city = params.get('city');
       const isKakao = /KAKAOTALK/i.test(navigator.userAgent);
       if (isKakao && city) {
@@ -183,14 +187,18 @@
     </div>
   </footer>
 
-  <!-- 모달: 링크 복사만 -->
   <div class="kakao-modal-overlay" id="kakaoModal">
     <div class="kakao-modal">
       <div class="icon">💬</div>
       <h2>카카오톡으로 열어주세요!</h2>
-      <p>아래 버튼으로 링크를 복사한 뒤<br>카카오톡 채팅창에 붙여넣기 해주세요 😊</p>
+      <p>링크를 복사한 뒤 카카오톡을 열어<br>채팅창에 붙여넣기 해주세요 😊</p>
+      <p class="step-hint">① 링크 복사 → ② 카카오톡 열기 → ③ 붙여넣기 후 전송</p>
+
       <button class="kakao-btn" onclick="copyAndGuide()">
-        📋 링크 복사하기
+        📋 1단계: 링크 복사하기
+      </button>
+      <button class="kakao-open-btn" onclick="openKakao()">
+        💛 2단계: 카카오톡 열기
       </button>
       <button class="kakao-close" onclick="closeKakaoModal()">닫기</button>
     </div>
@@ -217,12 +225,10 @@
     }
 
     function copyAndGuide() {
-      // 복사할 링크: travelinyourpocket.net?city=하노이
-      // 카카오톡에 붙여넣으면 미리보기 카드 생성 + 클릭 시 GAS로 자동 이동
       const shareUrl = 'https://travelinyourpocket.net?city=' + encodeURIComponent(currentCity);
       if (navigator.clipboard) {
         navigator.clipboard.writeText(shareUrl).then(() => {
-          alert('링크가 복사됐어요!\n카카오톡 채팅창에 붙여넣기 후 전송해주세요 😊');
+          alert('✅ 링크 복사 완료!\n이제 2단계: 카카오톡 열기 버튼을 눌러주세요 😊');
         });
       } else {
         const ta = document.createElement('textarea');
@@ -231,8 +237,12 @@
         ta.select();
         document.execCommand('copy');
         document.body.removeChild(ta);
-        alert('링크가 복사됐어요!\n카카오톡 채팅창에 붙여넣기 후 전송해주세요 😊');
+        alert('✅ 링크 복사 완료!\n이제 2단계: 카카오톡 열기 버튼을 눌러주세요 😊');
       }
+    }
+
+    function openKakao() {
+      window.location.href = 'kakaotalk://';
     }
 
     function closeKakaoModal() {
