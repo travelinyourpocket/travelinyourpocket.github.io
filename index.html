@@ -35,14 +35,17 @@
     h1 em { color: #4285f4; font-style: normal; }
     .hero-desc { font-size: 18px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 36px; }
     .cities { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    /* ✅ button 태그용 스타일 (span 대신) */
     .city-tag {
       background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
       padding: 8px 18px; border-radius: 20px; font-size: 14px;
       color: rgba(255,255,255,0.8); text-decoration: none; cursor: pointer;
+      font-family: inherit;
     }
     .city-tag:hover { background: rgba(66,133,244,0.2); border-color: #4285f4; }
-    .city-tag.soon { color: rgba(255,255,255,0.4); font-size: 13px; cursor: default; }
-    .city-tag.coming-soon { cursor: not-allowed; opacity: 0.5; pointer-events: none; }
+    .city-tag.soon { color: rgba(255,255,255,0.4); font-size: 13px; cursor: default; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); }
+    .city-tag.coming-soon { cursor: not-allowed; opacity: 0.5; pointer-events: none; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); }
     .city-tag.coming-soon small { font-size: 11px; color: rgba(255,255,255,0.6); }
 
     .features { padding: 80px 40px; max-width: 1100px; margin: 0 auto; }
@@ -67,7 +70,7 @@
     .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; margin: 0 12px; }
     .footer-links a:hover { color: rgba(255,255,255,0.7); }
 
-    /* ✅ 원본과 100% 동일한 모달 CSS */
+    /* 모달 CSS - 원본 그대로 */
     .kakao-modal-overlay {
       display: none;
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -131,10 +134,10 @@
         AI와 함께 스마트하게 탐색하는 여행 지도 앱
       </p>
       <div class="cities">
-        <!-- ✅ GAS URL을 직접 인자로 전달. 도시 추가 시 이 패턴으로 복사해서 추가 -->
-        <span class="city-tag" onclick="openCity('https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec?country=베트남&city=하노이')">🇻🇳 하노이</span>
-        <span class="city-tag coming-soon">🇻🇳 다낭 <small>(서비스 준비중)</small></span>
-        <span class="city-tag coming-soon">🇹🇭 방콕 <small>(서비스 준비중)</small></span>
+        <!-- ✅ span → button 으로 교체 (iOS/Android onclick 안정성 향상) -->
+        <button class="city-tag" onclick="openCity('https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec?country=베트남&city=하노이')">🇻🇳 하노이</button>
+        <button class="city-tag coming-soon" disabled>🇻🇳 다낭 <small>(서비스 준비중)</small></button>
+        <button class="city-tag coming-soon" disabled>🇹🇭 방콕 <small>(서비스 준비중)</small></button>
         <span class="city-tag soon">+ 더 많은 도시 준비 중</span>
       </div>
     </div>
@@ -184,17 +187,16 @@
   </div>
 
   <script>
-    // ✅ 클릭한 도시의 GAS URL 저장용
     let currentCityUrl = '';
 
-    // ✅ 원본과 동일한 isMobile (잘 작동했던 그대로)
     function isMobile() {
-      return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+      return /Android|iPhone|iPad|iPod|Mobile|Samsung/i.test(navigator.userAgent);
     }
 
-    // ✅ 변경된 부분: GAS URL을 인자로 받아서 처리
     function openCity(gasUrl) {
       currentCityUrl = gasUrl;
+      // 🔍 디버그용 알럿 - 확인 후 제거 예정
+      alert('isMobile: ' + isMobile() + '\nUA: ' + navigator.userAgent.substring(0, 80));
       if (isMobile()) {
         document.getElementById('kakaoModal').classList.add('show');
       } else {
@@ -202,7 +204,6 @@
       }
     }
 
-    // ✅ 복사 시 currentCityUrl 사용 (원본 로직 그대로)
     function copyAndGuide() {
       if (navigator.clipboard) {
         navigator.clipboard.writeText(currentCityUrl).then(() => {
