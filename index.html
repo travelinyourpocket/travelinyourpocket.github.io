@@ -131,7 +131,7 @@
         AI와 함께 스마트하게 탐색하는 여행 지도 앱
       </p>
       <div class="cities">
-        <span class="city-tag" onclick="openCity()">🇻🇳 하노이</span>
+        <span class="city-tag" onclick="openCity('https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec?country=베트남&city=하노이')">🇻🇳 하노이</span>
         <span class="city-tag coming-soon">🇻🇳 다낭 <small>(서비스 준비중)</small></span>
         <span class="city-tag coming-soon">🇹🇭 방콕 <small>(서비스 준비중)</small></span>
         <span class="city-tag soon">+ 더 많은 도시 준비 중</span>
@@ -183,28 +183,32 @@
   </div>
 
   <script>
-    const APP_URL = 'https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec?country=베트남&city=하노이';
+    // 현재 클릭된 도시의 GAS URL을 저장
+    let currentCityUrl = '';
 
     function isMobile() {
       return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
     }
 
-    function openCity() {
+    function openCity(gasUrl) {
+      currentCityUrl = gasUrl;
       if (isMobile()) {
+        // 모바일: 카카오톡 안내 모달 표시
         document.getElementById('kakaoModal').classList.add('show');
       } else {
-        window.location.href = APP_URL;
+        // 데스크탑: GAS URL로 직접 이동
+        window.location.href = gasUrl;
       }
     }
 
     function copyAndGuide() {
       if (navigator.clipboard) {
-        navigator.clipboard.writeText(APP_URL).then(() => {
+        navigator.clipboard.writeText(currentCityUrl).then(() => {
           alert('링크가 복사됐어요! 카카오톡 채팅창에 붙여넣기 후 열어주세요 😊');
         });
       } else {
         const ta = document.createElement('textarea');
-        ta.value = APP_URL;
+        ta.value = currentCityUrl;
         document.body.appendChild(ta);
         ta.select();
         document.execCommand('copy');
