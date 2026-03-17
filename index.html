@@ -249,12 +249,8 @@
         alert('📋 먼저 1단계: 링크 복사하기를 눌러주세요!');
         return;
       }
-      const isAndroid = /Android/i.test(navigator.userAgent);
-      if (isAndroid) {
-        window.location.href = 'intent://home#Intent;scheme=kakaolink;package=com.kakao.talk;end';
-      } else {
-        window.location.href = 'kakaotalk://';
-      }
+      // 카카오톡 앱 단순 실행 (홈 화면)
+      window.location.href = 'kakaotalk://launch';
     }
 
     function closeKakaoModal() {
