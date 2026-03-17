@@ -69,14 +69,20 @@
 
     /* 모바일 카카오톡 안내 모달 */
     .kakao-modal-overlay {
-      display: none;
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.75);
-      z-index: 10000;
+      z-index: 99999;
+      display: flex;
       align-items: center; justify-content: center;
       padding: 24px;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.2s ease;
     }
-    .kakao-modal-overlay.show { display: flex; }
+    .kakao-modal-overlay.show {
+      visibility: visible;
+      opacity: 1;
+    }
     .kakao-modal {
       background: #1a2332;
       border: 1px solid rgba(255,255,255,0.12);
@@ -187,7 +193,11 @@
     let currentCityUrl = '';
 
     function isMobile() {
-      return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+      const ua = navigator.userAgent;
+      const byUA = /Android|iPhone|iPad|iPod|Mobile|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+      const byIPad = /Macintosh/i.test(ua) && navigator.maxTouchPoints > 1;
+      const byTouch = navigator.maxTouchPoints > 1 && window.innerWidth <= 768;
+      return byUA || byIPad || byTouch;
     }
 
     function openCity(gasUrl) {
