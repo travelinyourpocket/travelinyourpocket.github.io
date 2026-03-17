@@ -225,7 +225,7 @@
     }
 
     function copyAndGuide() {
-      const shareUrl = 'https://travelinyourpocket.net?city=' + encodeURIComponent(currentCity);
+      const shareUrl = 'https://travelinyourpocket.net?city=' + currentCity;
       if (navigator.clipboard) {
         navigator.clipboard.writeText(shareUrl).then(() => {
           alert('✅ 링크 복사 완료!\n이제 2단계: 카카오톡 열기 버튼을 눌러주세요 😊');
