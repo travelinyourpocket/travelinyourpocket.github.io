@@ -206,6 +206,7 @@
 
   <script>
     let currentCity = '';
+    let linkCopied = false;
 
     const GAS_URLS = {
       '하노이': 'https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec?country=베트남&city=하노이'
@@ -228,6 +229,7 @@
       const shareUrl = 'https://travelinyourpocket.net?city=' + currentCity;
       if (navigator.clipboard) {
         navigator.clipboard.writeText(shareUrl).then(() => {
+          linkCopied = true;
           alert('✅ 링크 복사 완료!\n이제 2단계: 카카오톡 열기 버튼을 눌러주세요 😊');
         });
       } else {
@@ -237,11 +239,16 @@
         ta.select();
         document.execCommand('copy');
         document.body.removeChild(ta);
+        linkCopied = true;
         alert('✅ 링크 복사 완료!\n이제 2단계: 카카오톡 열기 버튼을 눌러주세요 😊');
       }
     }
 
     function openKakao() {
+      if (!linkCopied) {
+        alert('📋 먼저 1단계: 링크 복사하기를 눌러주세요!');
+        return;
+      }
       const isAndroid = /Android/i.test(navigator.userAgent);
       if (isAndroid) {
         window.location.href = 'intent://home#Intent;scheme=kakaolink;package=com.kakao.talk;end';
@@ -252,6 +259,7 @@
 
     function closeKakaoModal() {
       document.getElementById('kakaoModal').classList.remove('show');
+      linkCopied = false;
     }
   </script>
 </body>
