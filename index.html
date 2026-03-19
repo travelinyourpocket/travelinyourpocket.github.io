@@ -216,17 +216,22 @@
       return /Android|iPhone|iPad|iPod|Mobile|Samsung/i.test(navigator.userAgent);
     }
 
+    // ✅ 진동 헬퍼 (지원 기기만)
+    function vibrate() {
+      if (navigator.vibrate) {
+        navigator.vibrate(60);
+      }
+    }
+
     function openCity(cityName) {
+      vibrate(); // ✅ 도시 선택 시 진동
       currentCity = cityName;
       const isKakao = /KAKAOTALK/i.test(navigator.userAgent);
       if (isKakao) {
-        // 카카오톡 인앱브라우저면 바로 GAS로 이동
         window.location.href = GAS_URLS[cityName];
       } else if (isMobile()) {
-        // 일반 모바일 브라우저면 모달 표시
         document.getElementById('kakaoModal').classList.add('show');
       } else {
-        // 데스크탑이면 바로 GAS로 이동
         window.location.href = GAS_URLS[cityName];
       }
     }
@@ -255,7 +260,6 @@
         alert('📋 먼저 1단계: 링크 복사하기를 눌러주세요!');
         return;
       }
-      // 카카오톡 앱 단순 실행 (홈 화면)
       window.location.href = 'kakaotalk://launch';
     }
 
