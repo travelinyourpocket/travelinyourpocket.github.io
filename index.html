@@ -4,6 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RHTZ1HC1X6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RHTZ1HC1X6');
+  </script>
+
   <!-- OG 태그 (카카오톡 미리보기) -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://travelinyourpocket.net">
@@ -216,7 +225,6 @@
       return /Android|iPhone|iPad|iPod|Mobile|Samsung/i.test(navigator.userAgent);
     }
 
-    // ✅ 진동 헬퍼 (지원 기기만)
     function vibrate() {
       if (navigator.vibrate) {
         navigator.vibrate(60);
@@ -224,8 +232,10 @@
     }
 
     function openCity(cityName) {
-      vibrate(); // ✅ 도시 선택 시 진동
+      vibrate();
       currentCity = cityName;
+      // GA4 도시 클릭 이벤트 추적
+      gtag('event', 'city_click', { 'city_name': cityName });
       const isKakao = /KAKAOTALK/i.test(navigator.userAgent);
       if (isKakao) {
         window.location.href = GAS_URLS[cityName];
