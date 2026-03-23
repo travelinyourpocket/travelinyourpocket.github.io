@@ -264,13 +264,21 @@
 
       // 인앱 브라우저면 → 바로 GAS로 이동 (팝업 없이)
       if (isInApp) {
-        window.location.href = GAS_URLS[cityName];
+        if (GAS_URLS[cityName]) {
+          window.location.href = GAS_URLS[cityName];
+        } else {
+          alert('준비 중인 도시예요! 곧 오픈됩니다 😊');
+        }
         return;
       }
 
       // PC면 → 바로 GAS로 이동
       if (!isMobile()) {
-        window.location.href = GAS_URLS[cityName];
+        if (GAS_URLS[cityName]) {
+          window.location.href = GAS_URLS[cityName];
+        } else {
+          alert('준비 중인 도시예요! 곧 오픈됩니다 😊');
+        }
         return;
       }
 
