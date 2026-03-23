@@ -77,7 +77,8 @@
     .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; margin: 0 12px; }
     .footer-links a:hover { color: rgba(255,255,255,0.7); }
 
-    .kakao-modal-overlay {
+    /* ===== 공통 메신저 모달 ===== */
+    .messenger-modal-overlay {
       display: none;
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.75);
@@ -85,8 +86,8 @@
       align-items: center; justify-content: center;
       padding: 24px;
     }
-    .kakao-modal-overlay.show { display: flex; }
-    .kakao-modal {
+    .messenger-modal-overlay.show { display: flex; }
+    .messenger-modal {
       background: #1a2332;
       border: 1px solid rgba(255,255,255,0.12);
       border-radius: 24px;
@@ -95,27 +96,25 @@
       width: 100%;
       text-align: center;
     }
-    .kakao-modal .icon { font-size: 56px; margin-bottom: 16px; }
-    .kakao-modal h2 { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
-    .kakao-modal p { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 8px; }
+    .messenger-modal .icon { font-size: 56px; margin-bottom: 16px; }
+    .messenger-modal h2 { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
+    .messenger-modal p { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 8px; }
     .step-hint { font-size: 13px; color: rgba(255,255,255,0.35); margin-bottom: 24px; }
-    .kakao-btn {
+    .copy-btn {
       display: block; width: 100%;
       background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.9);
       border: 1px solid rgba(255,255,255,0.2); border-radius: 14px;
       padding: 15px; font-size: 15px; font-weight: 700;
       cursor: pointer; margin-bottom: 10px;
     }
-    .kakao-btn:hover { background: rgba(255,255,255,0.15); }
-    .kakao-open-btn {
+    .copy-btn:hover { background: rgba(255,255,255,0.15); }
+    .open-btn {
       display: block; width: 100%;
-      background: #FEE500; color: #3c1e1e;
       border: none; border-radius: 14px;
       padding: 16px; font-size: 16px; font-weight: 800;
       cursor: pointer; margin-bottom: 12px;
     }
-    .kakao-open-btn:hover { background: #f5d800; }
-    .kakao-close {
+    .modal-close {
       display: block; width: 100%;
       background: rgba(255,255,255,0.05);
       color: rgba(255,255,255,0.4);
@@ -127,17 +126,24 @@
 
   <script>
     (function() {
-      const params = new URLSearchParams(window.location.search);
-      const hasSpot = params.has('spot');
-      const hasShare = params.has('shareCategory');
+      var params = new URLSearchParams(window.location.search);
+      var hasSpot = params.has('spot');
+      var hasShare = params.has('shareCategory');
       if (hasSpot || hasShare) {
         window.location.replace('/app.html?' + params.toString());
         return;
       }
-      const city = params.get('city');
-      const isKakao = /KAKAOTALK/i.test(navigator.userAgent);
-      if (isKakao && city) {
-        const gasUrls = {
+
+      var city = params.get('city');
+      var ua = navigator.userAgent;
+
+      // ✅ 인앱 브라우저 감지 (카카오톡 + Zalo + Line + WeChat 등 모두 포함)
+      var INAPP_RE = /KAKAOTALK|ZaloApp|ZALO|Line\/|MicroMessenger|WhatsApp|Telegram/i;
+      var isInApp = INAPP_RE.test(ua);
+
+      // 인앱 + city 파라미터가 있으면 → 바로 GAS로 이동
+      if (isInApp && city) {
+        var gasUrls = {
           '하노이': 'https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec?country=베트남&city=하노이'
         };
         if (gasUrls[city]) {
@@ -196,29 +202,39 @@
     </div>
   </footer>
 
-  <div class="kakao-modal-overlay" id="kakaoModal">
-    <div class="kakao-modal">
-      <div class="icon">💬</div>
-      <h2>카카오톡으로 열어주세요!</h2>
-      <p>링크를 복사한 뒤 카카오톡을 열어<br>채팅창에 붙여넣기 해주세요 😊</p>
-      <p class="step-hint">① 링크 복사 → ② 카카오톡 열기 → ③ 붙여넣기 후 전송</p>
-
-      <button class="kakao-btn" onclick="copyAndGuide()">
-        📋 1단계: 링크 복사하기
-      </button>
-      <button class="kakao-open-btn" onclick="openKakao()">
-        💛 2단계: 카카오톡 열기
-      </button>
-      <button class="kakao-close" onclick="closeKakaoModal()">닫기</button>
+  <!-- ===== 공통 메신저 유도 모달 ===== -->
+  <div class="messenger-modal-overlay" id="messengerModal">
+    <div class="messenger-modal">
+      <div class="icon" id="modalIcon">💬</div>
+      <h2 id="modalTitle"></h2>
+      <p id="modalDesc"></p>
+      <p class="step-hint" id="modalStep"></p>
+      <button class="copy-btn" id="modalCopyBtn" onclick="copyLink()">📋 1단계: 링크 복사하기</button>
+      <button class="open-btn" id="modalOpenBtn" onclick="openMessenger()"></button>
+      <button class="modal-close" onclick="closeModal()">닫기</button>
     </div>
   </div>
 
   <script>
-    let currentCity = '';
-    let linkCopied = false;
+    var currentCity = '';
+    var linkCopied = false;
+    var currentScheme = '';
 
-    const GAS_URLS = {
+    var GAS_URLS = {
       '하노이': 'https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec?country=베트남&city=하노이'
+    };
+
+    // ✅ 인앱 UA 감지 정규식 (ZaloApp 포함)
+    var INAPP_RE = /KAKAOTALK|ZaloApp|ZALO|Line\/|MicroMessenger|WhatsApp|Telegram/i;
+
+    // ✅ 국가별 메신저 설정
+    var MESSENGERS = {
+      KR:      { title: '카카오톡으로 열어주세요!', desc: '링크를 복사한 뒤 카카오톡을 열어\n채팅창에 붙여넣기 해주세요 😊', step: '① 링크 복사 → ② 카카오톡 열기 → ③ 붙여넣기 후 전송', btn2: '🤍 2단계: 카카오톡 열기', color: '#FEE500', textColor: '#391B1B', scheme: 'kakaotalk://' },
+      VN:      { title: 'Zalo로 열어주세요!',       desc: '링크를 복사한 뒤 Zalo를 열어\n채팅창에 붙여넣기 해주세요 😊',   step: '① 링크 복사 → ② Zalo 열기 → ③ 붙여넣기 후 전송',      btn2: '💙 2단계: Zalo 열기',      color: '#0068FF', textColor: '#ffffff', scheme: 'zalo://' },
+      TH:      { title: 'Line으로 열어주세요!',     desc: '링크를 복사한 뒤 Line을 열어\n채팅창에 붙여넣기 해주세요 😊',   step: '① 링크 복사 → ② Line 열기 → ③ 붙여넣기 후 전송',      btn2: '💚 2단계: Line 열기',       color: '#06C755', textColor: '#ffffff', scheme: 'line://' },
+      JP:      { title: 'Line으로 열어주세요!',     desc: '링크를 복사한 뒤 Line을 열어\n채팅창에 붙여넣기 해주세요 😊',   step: '① 링크 복사 → ② Line 열기 → ③ 붙여넣기 후 전송',      btn2: '💚 2단계: Line 열기',       color: '#06C755', textColor: '#ffffff', scheme: 'line://' },
+      CN:      { title: 'WeChat으로 열어주세요!',   desc: '링크를 복사한 뒤 微信을 열어\n채팅창에 붙여넣기 해주세요 😊',   step: '① 링크 복사 → ② WeChat 열기 → ③ 붙여넣기 후 전송',    btn2: '💚 2단계: WeChat 열기',     color: '#07C160', textColor: '#ffffff', scheme: 'weixin://' },
+      DEFAULT: { title: 'WhatsApp으로 열어주세요!', desc: '링크를 복사한 뒤 WhatsApp을 열어\n채팅창에 붙여넣기 해주세요 😊', step: '① 링크 복사 → ② WhatsApp 열기 → ③ 붙여넣기 후 전송', btn2: '💬 2단계: WhatsApp 열기',  color: '#25D366', textColor: '#ffffff', scheme: 'whatsapp://' },
     };
 
     function isMobile() {
@@ -226,55 +242,103 @@
     }
 
     function vibrate() {
-      if (navigator.vibrate) {
-        navigator.vibrate(60);
-      }
+      if (navigator.vibrate) navigator.vibrate(60);
+    }
+
+    // ✅ 언어 → 국가 매핑
+    var LANG_MAP = { ko: 'KR', vi: 'VN', th: 'TH', ja: 'JP', zh: 'CN' };
+
+    function getMessengerByLang() {
+      var lang = (navigator.language || '').substring(0, 2).toLowerCase();
+      var code = LANG_MAP[lang];
+      return code ? MESSENGERS[code] : null;
     }
 
     function openCity(cityName) {
       vibrate();
       currentCity = cityName;
-      // GA4 도시 클릭 이벤트 추적
       gtag('event', 'city_click', { 'city_name': cityName });
-      const isKakao = /KAKAOTALK/i.test(navigator.userAgent);
-      if (isKakao) {
+
+      var ua = navigator.userAgent;
+      var isInApp = INAPP_RE.test(ua);
+
+      // 인앱 브라우저면 → 바로 GAS로 이동 (팝업 없이)
+      if (isInApp) {
         window.location.href = GAS_URLS[cityName];
-      } else if (isMobile()) {
-        document.getElementById('kakaoModal').classList.add('show');
+        return;
+      }
+
+      // PC면 → 바로 GAS로 이동
+      if (!isMobile()) {
+        window.location.href = GAS_URLS[cityName];
+        return;
+      }
+
+      // 모바일 일반 브라우저 → 메신저 유도 모달 표시
+      // 언어로 메신저 결정, 안되면 IP로 감지
+      var byLang = getMessengerByLang();
+      if (byLang) {
+        showModal(byLang);
       } else {
-        window.location.href = GAS_URLS[cityName];
+        fetch('https://ipapi.co/json/')
+          .then(function(r) { return r.json(); })
+          .then(function(d) { showModal(MESSENGERS[d.country_code] || MESSENGERS['DEFAULT']); })
+          .catch(function() { showModal(MESSENGERS['DEFAULT']); });
       }
     }
 
-    function copyAndGuide() {
-      const shareUrl = 'https://travelinyourpocket.net?city=' + currentCity;
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(shareUrl).then(() => {
-          linkCopied = true;
-          alert('✅ 링크 복사 완료!\n이제 2단계: 카카오톡 열기 버튼을 눌러주세요 😊');
-        });
-      } else {
-        const ta = document.createElement('textarea');
-        ta.value = shareUrl;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
+    function showModal(m) {
+      currentScheme = m.scheme;
+      linkCopied = false;
+
+      document.getElementById('modalTitle').textContent = m.title;
+      document.getElementById('modalDesc').textContent = m.desc;
+      document.getElementById('modalStep').textContent = m.step;
+      var openBtn = document.getElementById('modalOpenBtn');
+      openBtn.textContent = m.btn2;
+      openBtn.style.background = m.color;
+      openBtn.style.color = m.textColor;
+
+      // 복사 버튼 초기화
+      var copyBtn = document.getElementById('modalCopyBtn');
+      copyBtn.textContent = '📋 1단계: 링크 복사하기';
+      copyBtn.style.color = '';
+      copyBtn.style.background = '';
+
+      document.getElementById('messengerModal').classList.add('show');
+    }
+
+    function copyLink() {
+      // 공유 URL에 inapp=1 파라미터 추가 → 메인앱에서 팝업 재발생 방지
+      var shareUrl = 'https://travelinyourpocket.net?city=' + encodeURIComponent(currentCity) + '&inapp=1';
+      var btn = document.getElementById('modalCopyBtn');
+      var done = function() {
         linkCopied = true;
-        alert('✅ 링크 복사 완료!\n이제 2단계: 카카오톡 열기 버튼을 눌러주세요 😊');
+        btn.textContent = '✅ 복사 완료!';
+        btn.style.color = '#4cde80';
+        btn.style.background = '#1a2a1a';
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(shareUrl).then(done).catch(done);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = shareUrl;
+        ta.style.cssText = 'position:fixed;top:-999px;opacity:0;';
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+        done();
       }
     }
 
-    function openKakao() {
+    function openMessenger() {
       if (!linkCopied) {
         alert('📋 먼저 1단계: 링크 복사하기를 눌러주세요!');
         return;
       }
-      window.location.href = 'kakaotalk://launch';
+      window.location.href = currentScheme;
     }
 
-    function closeKakaoModal() {
-      document.getElementById('kakaoModal').classList.remove('show');
+    function closeModal() {
+      document.getElementById('messengerModal').classList.remove('show');
       linkCopied = false;
     }
   </script>
