@@ -48,7 +48,7 @@
       background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
       padding: 8px 18px; border-radius: 20px; font-size: 14px;
       color: rgba(255,255,255,0.8); text-decoration: none; cursor: pointer;
-      font-family: inherit;
+      font-family: inherit; transition: all 0.2s;
     }
     .city-tag:hover { background: rgba(66,133,244,0.2); border-color: #4285f4; }
     .city-tag.soon { color: rgba(255,255,255,0.4); font-size: 13px; cursor: default; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); }
@@ -122,6 +122,38 @@
       padding: 14px; font-size: 14px;
       cursor: pointer;
     }
+
+    /* ===== 로딩 오버레이 ===== */
+    #loadingOverlay {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 25, 35, 0.92);
+      z-index: 99999;
+      flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 24px;
+    }
+    #loadingOverlay.show { display: flex; }
+
+    .loading-spinner {
+      width: 52px; height: 52px;
+      border: 3px solid rgba(66,133,244,0.2);
+      border-top-color: #4285f4;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-text {
+      font-size: 17px; font-weight: 600;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.3px;
+    }
+    .loading-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      margin-top: -16px;
+    }
   </style>
 
   <script>
@@ -137,11 +169,9 @@
       var city = params.get('city');
       var ua = navigator.userAgent;
 
-      // ✅ 인앱 브라우저 감지 (카카오톡 + Zalo + Line + WeChat 등 모두 포함)
       var INAPP_RE = /KAKAOTALK|ZaloApp|ZALO|Line\/|MicroMessenger|WhatsApp|Telegram/i;
       var isInApp = INAPP_RE.test(ua);
 
-      // 인앱 + city 파라미터가 있으면 → 바로 GAS로 이동
       if (isInApp && city) {
         var gasUrls = {
           '하노이': 'https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec?country=베트남&city=하노이'
@@ -202,6 +232,13 @@
     </div>
   </footer>
 
+  <!-- ===== 로딩 오버레이 ===== -->
+  <div id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text" id="loadingText">🇻🇳 하노이 지도 불러오는 중...</div>
+    <div class="loading-sub">잠시만 기다려주세요</div>
+  </div>
+
   <!-- ===== 공통 메신저 유도 모달 ===== -->
   <div class="messenger-modal-overlay" id="messengerModal">
     <div class="messenger-modal">
@@ -224,10 +261,10 @@
       '하노이': 'https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec?country=베트남&city=하노이'
     };
 
-    // ✅ 인앱 UA 감지 정규식 (ZaloApp 포함)
+    var CITY_EMOJI = { '하노이': '🇻🇳' };
+
     var INAPP_RE = /KAKAOTALK|ZaloApp|ZALO|Line\/|MicroMessenger|WhatsApp|Telegram/i;
 
-    // ✅ 국가별 메신저 설정
     var MESSENGERS = {
       KR:      { title: '카카오톡으로 열어주세요!', desc: '링크를 복사한 뒤 카카오톡을 열어\n채팅창에 붙여넣기 해주세요 😊', step: '① 링크 복사 → ② 카카오톡 열기 → ③ 붙여넣기 후 전송', btn2: '🤍 2단계: 카카오톡 열기', color: '#FEE500', textColor: '#391B1B', scheme: 'kakaotalk://' },
       VN:      { title: 'Zalo로 열어주세요!',       desc: '링크를 복사한 뒤 Zalo를 열어\n채팅창에 붙여넣기 해주세요 😊',   step: '① 링크 복사 → ② Zalo 열기 → ③ 붙여넣기 후 전송',      btn2: '💙 2단계: Zalo 열기',      color: '#0068FF', textColor: '#ffffff', scheme: 'zalo://' },
@@ -245,7 +282,13 @@
       if (navigator.vibrate) navigator.vibrate(60);
     }
 
-    // ✅ 언어 → 국가 매핑
+    // ✅ 로딩 오버레이 표시
+    function showLoading(cityName) {
+      var emoji = CITY_EMOJI[cityName] || '🗺️';
+      document.getElementById('loadingText').textContent = emoji + ' ' + cityName + ' 지도 불러오는 중...';
+      document.getElementById('loadingOverlay').classList.add('show');
+    }
+
     var LANG_MAP = { ko: 'KR', vi: 'VN', th: 'TH', ja: 'JP', zh: 'CN' };
 
     function getMessengerByLang() {
@@ -262,9 +305,10 @@
       var ua = navigator.userAgent;
       var isInApp = INAPP_RE.test(ua);
 
-      // 인앱 브라우저면 → 바로 GAS로 이동 (팝업 없이)
+      // 인앱 브라우저면 → 로딩 표시 후 GAS로 이동
       if (isInApp) {
         if (GAS_URLS[cityName]) {
+          showLoading(cityName);
           window.location.href = GAS_URLS[cityName];
         } else {
           alert('준비 중인 도시예요! 곧 오픈됩니다 😊');
@@ -272,9 +316,10 @@
         return;
       }
 
-      // PC면 → 바로 GAS로 이동
+      // PC면 → 로딩 표시 후 GAS로 이동
       if (!isMobile()) {
         if (GAS_URLS[cityName]) {
+          showLoading(cityName);
           window.location.href = GAS_URLS[cityName];
         } else {
           alert('준비 중인 도시예요! 곧 오픈됩니다 😊');
@@ -282,8 +327,7 @@
         return;
       }
 
-      // 모바일 일반 브라우저 → 메신저 유도 모달 표시
-      // 언어로 메신저 결정, 안되면 IP로 감지
+      // 모바일 일반 브라우저 → 메신저 유도 모달 표시 (로딩 없이)
       var byLang = getMessengerByLang();
       if (byLang) {
         showModal(byLang);
@@ -307,7 +351,6 @@
       openBtn.style.background = m.color;
       openBtn.style.color = m.textColor;
 
-      // 복사 버튼 초기화
       var copyBtn = document.getElementById('modalCopyBtn');
       copyBtn.textContent = '📋 1단계: 링크 복사하기';
       copyBtn.style.color = '';
@@ -317,7 +360,6 @@
     }
 
     function copyLink() {
-      // 공유 URL에 inapp=1 파라미터 추가 → 메인앱에서 팝업 재발생 방지
       var shareUrl = 'https://travelinyourpocket.net?city=' + encodeURIComponent(currentCity) + '&inapp=1';
       var btn = document.getElementById('modalCopyBtn');
       var done = function() {
@@ -342,6 +384,9 @@
         alert('📋 먼저 1단계: 링크 복사하기를 눌러주세요!');
         return;
       }
+      // 메신저 앱 열기 전 로딩 표시
+      showLoading(currentCity);
+      closeModal();
       window.location.href = currentScheme;
     }
 
@@ -349,6 +394,13 @@
       document.getElementById('messengerModal').classList.remove('show');
       linkCopied = false;
     }
+
+    // 뒤로가기 시 로딩 오버레이 숨기기 (브라우저 캐시로 돌아왔을 때)
+    window.addEventListener('pageshow', function(e) {
+      if (e.persisted) {
+        document.getElementById('loadingOverlay').classList.remove('show');
+      }
+    });
   </script>
 </body>
 </html>
