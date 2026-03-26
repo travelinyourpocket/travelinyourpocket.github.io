@@ -1,53 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RHTZ1HC1X6"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-RHTZ1HC1X6');
-
-  // 스팟 클릭 이벤트 추적
-  window.trackSpotClick = function(spotName, category) {
-    gtag('event', 'spot_click', {
-      'spot_name': spotName,
-      'category': category
-    });
-  };
-
-  // 카테고리 클릭 추적
-  window.trackCategoryClick = function(category) {
-    gtag('event', 'category_click', {
-      'category': category
-    });
-  };
-
-  // 유튜브 구독 버튼 클릭 추적
-  window.trackYoutubeClick = function() {
-    gtag('event', 'youtube_subscribe_click');
-  };
-
-  // 택시 호출 버튼 클릭 추적
-  window.trackTaxiClick = function(spotName) {
-    gtag('event', 'taxi_call', {
-      'spot_name': spotName
-    });
-  };
-
-  // AI 일정 생성 추적
-  window.trackAISchedule = function() {
-    gtag('event', 'ai_schedule_generate');
-  };
-
-  // 길찾기 버튼 클릭 추적
-  window.trackDirections = function(spotName) {
-    gtag('event', 'directions_click', {
-      'spot_name': spotName
-    });
-  };
-</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RHTZ1HC1X6"></script>
   <script>
@@ -55,9 +10,129 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-RHTZ1HC1X6');
+
+    // 스팟 클릭 이벤트 추적
+    window.trackSpotClick = function(spotName, category) {
+      gtag('event', 'spot_click', {
+        'spot_name': spotName,
+        'category': category
+      });
+    };
+
+    // 카테고리 클릭 추적
+    window.trackCategoryClick = function(category) {
+      gtag('event', 'category_click', {
+        'category': category
+      });
+    };
+
+    // 유튜브 구독 버튼 클릭 추적
+    window.trackYoutubeClick = function() {
+      gtag('event', 'youtube_subscribe_click');
+    };
+
+    // 택시 호출 버튼 클릭 추적
+    window.trackTaxiClick = function(spotName) {
+      gtag('event', 'taxi_call', {
+        'spot_name': spotName
+      });
+    };
+
+    // AI 일정 생성 추적
+    window.trackAISchedule = function() {
+      gtag('event', 'ai_schedule_generate');
+    };
+
+    // 길찾기 버튼 클릭 추적
+    window.trackDirections = function(spotName) {
+      gtag('event', 'directions_click', {
+        'spot_name': spotName
+      });
+    };
+
+    // 호텔 예약 클릭 추적
+    window.trackHotelBooking = function(spotName) {
+      if (typeof gtag === 'undefined') return;
+      gtag('event', 'Reservation_Hotel', {
+        'spot_name': spotName,
+        'city': '하노이'
+      });
+    };
+
+    // 호텔 가격확인 클릭 추적
+    window.trackHotelPriceCheck = function(spotName) {
+      if (typeof gtag === 'undefined') return;
+      gtag('event', 'Price_check_on_list', {
+        'spot_name': spotName,
+        'city': '하노이'
+      });
+    };
+
+    // 투어 예약 클릭 추적
+    window.trackTourBooking = function(spotName) {
+      if (typeof gtag === 'undefined') return;
+      gtag('event', 'Reservation_Tour', {
+        'spot_name': spotName,
+        'city': '하노이'
+      });
+    };
+
+    // 항공권 검색 클릭 추적
+    window.trackFlightSearch = function(airport) {
+      if (typeof gtag === 'undefined') return;
+      gtag('event', 'Checking_flight', {
+        'airport': airport,
+        'city': '하노이'
+      });
+    };
+
+    // 스팟 공유 클릭 추적
+    window.trackSpotShare = function(spotName) {
+      if (typeof gtag === 'undefined') return;
+      gtag('event', 'spot_share', {
+        'spot_name': spotName
+      });
+    };
+
+    // 나만의 지도 저장 클릭 추적
+    window.trackMyMapSave = function(spotName) {
+      if (typeof gtag === 'undefined') return;
+      gtag('event', 'mymap_spot_save', {
+        'spot_name': spotName
+      });
+    };
+
+    // 그랩 택시 호출 추적
+    window.trackGrabCall = function(spotName) {
+      if (typeof gtag === 'undefined') return;
+      gtag('event', 'grab_taxi_call', {
+        'spot_name': spotName
+      });
+    };
+
+    // AI 일정 모달 진입 추적
+    window.trackAIScheduleOpen = function() {
+      if (typeof gtag === 'undefined') return;
+      gtag('event', 'ai_schedule_open');
+    };
+
+    // 코드 복사 추적
+    window.trackCodeCopy = function() {
+      if (typeof gtag === 'undefined') return;
+      gtag('event', 'ai_schedule_code_copy');
+    };
   </script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <script>
+    // 📱 viewport가 980px로 잘못 렌더링되는 경우 강제 재설정
+    (function() {
+      var meta = document.querySelector('meta[name=viewport]');
+      if (!meta) return;
+      var correctContent = 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover';
+      // 즉시 한 번 강제 적용
+      meta.setAttribute('content', 'width=device-width, initial-scale=1.0');
+      meta.setAttribute('content', correctContent);
+    })();
+  </script>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
@@ -134,6 +209,66 @@
       min-height: 0;
     }
     
+    /* 🔍 검색 래퍼 (지도 왼쪽 상단 고정) */
+    #searchWrapper {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 200;
+      width: calc(60% - 12px);
+      max-width: 340px;
+    }
+    #searchInputRow {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      padding: 0 14px;
+      height: 42px;
+      gap: 8px;
+    }
+    #searchIcon { font-size: 15px; flex-shrink: 0; color: #aaa; }
+    #searchInput {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      color: #1d1d1f;
+      background: transparent;
+      height: 100%;
+    }
+    #searchInput::placeholder { color: #aaa; }
+    #searchClearBtn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 16px;
+      color: #aaa;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+    }
+    #searchResults {
+      display: none;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      margin-top: 8px;
+      overflow-y: auto;
+      max-height: 55vh;
+    }
+    #searchResults.active { display: block; }
+    .search-result-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f5f5f5; cursor: pointer; }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-result-item:active { background: #f5f7ff; }
+    .search-result-icon { font-size: 20px; flex-shrink: 0; }
+    .search-result-info { flex: 1; min-width: 0; }
+    .search-result-name { font-size: 14px; font-weight: 600; color: #1d1d1f; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .search-result-name em { color: #4285f4; font-style: normal; }
+    .search-result-category { font-size: 11px; color: #999; margin-top: 2px; }
+    .search-result-empty { text-align: center; padding: 28px 16px; color: #bbb; font-size: 13px; }
+
     /* 🤖 로봇+위치 버튼 패널 상단 고정 래퍼 */
     #panelFloatBtns {
       position: absolute;
@@ -846,6 +981,32 @@
       box-shadow: none !important;
     }
     
+    /* 🎒 투어 가격 확인 버튼 (리스트 카드용, 호텔가격확인과 동일 구조) */
+    .tour-price-check-btn {
+      display: block;
+      width: 100%;
+      flex: 1;
+      margin-top: auto;
+      margin-bottom: auto;
+      padding: 10px 4px;
+      background: linear-gradient(135deg, #43a047, #66bb6a);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15.5px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(67,160,71,0.4);
+      transition: all 0.2s;
+      letter-spacing: -0.3px;
+    }
+    .tour-price-check-btn:hover {
+      transform: scale(1.04);
+      box-shadow: 0 4px 10px rgba(67,160,71,0.55);
+    }
+
     /* 🎒 투어 예약 버튼 */
     .tour-booking-btn {
       width: 100%;
@@ -1204,7 +1365,7 @@
       max-width: 90%;
       width: 400px;
       max-height: 80vh;
-      overflow: hidden;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
       box-shadow: 0 8px 32px rgba(0,0,0,0.2);
@@ -1982,6 +2143,47 @@
     .ai-choice-btn .choice-text .choice-desc {
       font-size: 12.5px;
       color: #888;
+    }
+    /* 메인 강조 버튼 (AI 추천일정 자동 생성하기) */
+    .ai-choice-btn.main-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      padding: 22px 20px;
+      box-shadow: 0 6px 24px rgba(102,126,234,0.35);
+    }
+    .ai-choice-btn.main-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(102,126,234,0.5);
+      background: linear-gradient(135deg, #7b8ff5 0%, #8a5cb8 100%);
+      border: none;
+    }
+    .ai-choice-btn.main-btn .choice-title {
+      font-size: 18px !important;
+      font-weight: 800 !important;
+      color: white !important;
+      margin-bottom: 5px !important;
+    }
+    .ai-choice-btn.main-btn .choice-desc {
+      font-size: 13px !important;
+      color: rgba(255,255,255,0.85) !important;
+    }
+    .ai-choice-btn.main-btn .choice-icon {
+      font-size: 44px;
+    }
+    /* 서브 버튼 구분선 */
+    .ai-choice-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #bbb;
+      font-size: 12px;
+    }
+    .ai-choice-divider::before,
+    .ai-choice-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e8eaf6;
     }
 
     /* ============================================
@@ -3210,6 +3412,16 @@
 <body style="overflow: hidden; position: fixed; width: 100%; height: 100%;">
   <!-- 지도 -->
   <div id="map"></div>
+
+  <!-- 🔍 검색창 (지도 왼쪽 상단 인라인) -->
+  <div id="searchWrapper">
+    <div id="searchInputRow">
+      <span id="searchIcon">🔍</span>
+      <input id="searchInput" type="text" placeholder="스팟 이름으로 검색..." autocomplete="off" />
+      <button id="searchClearBtn" onclick="clearSearch()">✕</button>
+    </div>
+    <div id="searchResults"></div>
+  </div>
   
   <!-- 실시간 위치 로딩 스피너 -->
   <div class="location-loading" id="locationLoading">
@@ -3275,8 +3487,8 @@
     // ============================================
     // 🔗 서버에서 받은 공유 스팟 데이터
     // ============================================
-    const SERVER_SHARED_SPOT_DATA = <?!= sharedSpotData ?>;
-    const SERVER_SHARED_CATEGORY_DATA = <?!= sharedCategoryData ?>;
+    const SERVER_SHARED_SPOT_DATA = null;
+    const SERVER_SHARED_CATEGORY_DATA = null;
     
     // ============================================
     // 🔒 프로덕션 모드: 불필요한 로그 억제
@@ -3626,9 +3838,9 @@
       return 'https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec';
     }
 
-    // 🔗 공유 전용 URL - OG 태그 적용된 Netlify 경유
+    // 🔗 공유 전용 URL - 현재 실행 중인 앱 URL 그대로 사용
     function getShareBaseUrl() {
-      return 'https://travelinyourpocket.net';
+      return getWebAppUrl();
     }
     
     // 개별 스팟 공유
@@ -4761,7 +4973,8 @@
             lat: spot.lat,
             lng: spot.lng,
             description: spot.description || '',
-            icon: spot.icon || null
+            icon: spot.icon || null,
+            Facilities: spot.Facilities || ''  // 🏨 Hotels DB 부대시설
           };
           
           // 🔥 "국제공항에서 시내로의 경로" 스팟: 경로 데이터 연결
@@ -5128,12 +5341,7 @@
       loadVoteCounts(); // 👍👎 최신 투표 로드
       console.log('🎯 대분류 선택:', category);
       // GA 카테고리 클릭 이벤트
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'category_click', {
-          'event_category': 'navigation',
-          'event_label': category
-        });
-      }
+      try { google.script.run.sendGA4Event('user_action', 'category_click', {category: category, city: '하노이'}); } catch(e) {}
       currentMainCategory = category;
       currentMidCategory = null;
       currentSubCategory = null;
@@ -5592,26 +5800,27 @@ function isSpotInMyMap(spotName) {
       
       console.log('✅ 필터된 스팟:', filteredSpots.length + '개');
       
-      // 📌 고정된 스팟 추가
+      // 📌 고정된 스팟 - 지도 마커에만 표시, 리스트에는 현재 카테고리만
       const pinnedSpots = getPinnedSpots();
       const allDisplaySpots = [...filteredSpots];
       
-      // 중복 제거하면서 고정 스팟 추가
+      // 지도 마커용: 핀 고정 스팟도 포함 (중복 제거)
+      const allMarkerSpots = [...filteredSpots];
       pinnedSpots.forEach(pinned => {
-        if (!allDisplaySpots.find(s => s.name === pinned.name)) {
-          allDisplaySpots.push(pinned);
+        if (!allMarkerSpots.find(s => s.name === pinned.name)) {
+          allMarkerSpots.push(pinned);
         }
       });
       
-      console.log('📌 고정 스팟 포함:', allDisplaySpots.length + '개 (고정: ' + pinnedSpots.length + '개)');
+      console.log('📌 마커 스팟:', allMarkerSpots.length + '개 / 리스트 스팟:', allDisplaySpots.length + '개');
       
-      // 마커 생성
-      createMarkers(allDisplaySpots);
+      // 마커 생성 (핀 고정 포함)
+      createMarkers(allMarkerSpots);
       
       // 지도 자동 조정
       fitMapToSpots(filteredSpots);
       
-      // 스팟 리스트 생성
+      // 스팟 리스트 생성 (현재 카테고리만)
       const container = document.getElementById('spotsList');
       container.innerHTML = '';
       
@@ -5620,7 +5829,7 @@ function isSpotInMyMap(spotName) {
         return;
       }
       
-      // 🔥 핀 고정된 스팟도 리스트에 표시
+      // 🔥 현재 선택된 카테고리 스팟만 리스트에 표시
       allDisplaySpots.forEach(spot => {
         const item = document.createElement('div');
         item.className = 'spot-item';
@@ -5712,11 +5921,53 @@ function isSpotInMyMap(spotName) {
           ? '<div class="mymap-status-icon saved" title="나만의 지도에 저장됨">🌕</div>'
           : '<div class="mymap-status-icon unsaved" title="나만의 지도에 미저장">🌑</div>';
         
+        // 🏨 호텔 부대시설 태그 (이름 오른쪽 인라인)
+        let hotelFacilitiesInline = '';
+        if (mainCategory === '호텔' && spot.Facilities) {
+          const _fIcons = {
+            '수영장':'🏊','헬스장':'💪','스파':'🧖','스파/마사지':'🧖','스파·마사지':'🧖',
+            '공항셔틀':'🚌','공항 셔틀':'🚌','루프탑바':'🍸','루프탑 바':'🍸',
+            '레스토랑':'🍽️','바':'🍹','주차장':'🅿️','피트니스':'🏋️','조식':'🍳','비즈니스센터':'💼'
+          };
+          const _fColors = {
+            '수영장':     { bg:'#e3f2fd', color:'#0277bd', border:'#90caf9' },
+            '헬스장':     { bg:'#fce4ec', color:'#c62828', border:'#f48fb1' },
+            '스파':       { bg:'#f3e5f5', color:'#6a1b9a', border:'#ce93d8' },
+            '스파/마사지':{ bg:'#f3e5f5', color:'#6a1b9a', border:'#ce93d8' },
+            '스파·마사지':{ bg:'#f3e5f5', color:'#6a1b9a', border:'#ce93d8' },
+            '공항셔틀':   { bg:'#e8f5e9', color:'#2e7d32', border:'#a5d6a7' },
+            '공항 셔틀':  { bg:'#e8f5e9', color:'#2e7d32', border:'#a5d6a7' },
+            '루프탑바':   { bg:'#fff3e0', color:'#e65100', border:'#ffcc80' },
+            '루프탑 바':  { bg:'#fff3e0', color:'#e65100', border:'#ffcc80' },
+            '레스토랑':   { bg:'#fff8e1', color:'#f57f17', border:'#ffe082' },
+            '바':         { bg:'#fbe9e7', color:'#bf360c', border:'#ffab91' },
+            '주차장':     { bg:'#eceff1', color:'#37474f', border:'#b0bec5' },
+            '피트니스':   { bg:'#fce4ec', color:'#ad1457', border:'#f48fb1' },
+            '조식':       { bg:'#fffde7', color:'#f9a825', border:'#fff176' },
+            '비즈니스센터':{ bg:'#e8eaf6', color:'#283593', border:'#9fa8da' },
+          };
+          const _fDefault = { bg:'#f0f4ff', color:'#3d5afe', border:'#c5cae9' };
+          const _fItems = spot.Facilities.split(/[,，/·•]+/).map(function(f){ return f.trim(); }).filter(Boolean);
+          if (_fItems.length > 0) {
+            hotelFacilitiesInline = _fItems.map(function(f){
+              const c = _fColors[f] || _fDefault;
+              return '<span class="hotel-facility-tag" style="font-size:12px;padding:2px 7px;background:' + c.bg + ';color:' + c.color + ';border-color:' + c.border + ';">' + (_fIcons[f] || '✨') + ' ' + f + '</span>';
+            }).join('');
+          }
+        }
+
+        const spotNameHtml = hotelFacilitiesInline
+          ? '<div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-bottom:4px;">' +
+              '<span class="spot-name" style="margin-bottom:0;flex-shrink:0;">' + escapeHtml(spot.name || '이름 없음') + '</span>' +
+              hotelFacilitiesInline +
+            '</div>'
+          : '<div class="spot-name">' + escapeHtml(spot.name || '이름 없음') + '</div>';
+
         item.innerHTML = 
           '<div class="spot-header">' +
             thumbnailHtml +
             '<div class="spot-info">' +
-              '<div class="spot-name">' + escapeHtml(spot.name || '이름 없음') + '</div>' +
+              spotNameHtml +
               previewHtml +
             '</div>' +
             '<div class="spot-right-col">' +
@@ -5725,6 +5976,7 @@ function isSpotInMyMap(spotName) {
                 '<div onclick="openYoutubeChannel()" style="display:flex;flex-direction:row;align-items:center;justify-content:center;background:linear-gradient(135deg,#6a4c9c,#9b59b6);color:white;border-radius:8px;padding:5px 10px;cursor:pointer;gap:5px;width:100%;"><span style="font-size:13px;">▶️</span><span style="font-size:10px;font-weight:700;">구독</span></div>' +
               '</div>' +
               (mainCategory === '호텔' ? (hotelBookingUrl ? '<button class="hotel-price-check-btn" data-url="' + escapeHtml(hotelBookingUrl) + '">💰 호텔가격확인</button>' : '<button class="hotel-booking-disabled" disabled style="font-size:12px;padding:6px 8px;">🚫 일시적 예약 불가</button>') : '') +
+              (tourBookingUrl ? '<button class="tour-price-check-btn" data-url="' + escapeHtml(tourBookingUrl) + '">🎒 투어가격확인</button>' : '') +
             '</div>' +
           '</div>' +
           '<div class="spot-content">' +
@@ -5771,6 +6023,7 @@ function isSpotInMyMap(spotName) {
           if (mymapBtn) {
             mymapBtn.onclick = (e) => {
               e.stopPropagation();
+              trackMyMapSave(spot.name);
               console.log('나만의 지도 클릭'); // 🐛 DEBUG
               openSaveSpotModal(spot); // 🔥 나만의 지도에 추가
             };
@@ -5796,6 +6049,7 @@ function isSpotInMyMap(spotName) {
           if (directionsBtn) {
             directionsBtn.onclick = (e) => {
               e.stopPropagation();
+              trackDirections(spot.name);
               if (spot.lat && spot.lng) {
                 window.open('https://www.google.com/maps/dir/?api=1&destination=' + spot.lat + ',' + spot.lng + '&destination_place_name=' + encodeURIComponent(spot.name), '_blank');
               } else {
@@ -5810,6 +6064,7 @@ function isSpotInMyMap(spotName) {
             grabBtn.style.display = 'block';
             grabBtn.onclick = (e) => {
               e.stopPropagation();
+              trackGrabCall(spot.name);
               openGrabApp(spot.lat, spot.lng, getTaxiName(spot.name));
             };
           }
@@ -5817,6 +6072,7 @@ function isSpotInMyMap(spotName) {
           if (shareBtn) {
             shareBtn.onclick = (e) => {
               e.stopPropagation();
+              trackSpotShare(spot.name);
               console.log('공유 클릭:', spot.name);
               shareSpot(spot.name);
             };
@@ -5829,7 +6085,21 @@ function isSpotInMyMap(spotName) {
               e.stopPropagation();
               const url = hotelPriceCheckBtn.getAttribute('data-url');
               if (url) {
+                trackHotelPriceCheck(spot.name);
                 console.log('💰 호텔 가격확인 클릭:', url);
+                window.open(url, '_blank');
+              }
+            };
+          }
+
+          // 🎒 투어 가격확인 버튼 (리스트 카드)
+          const tourPriceCheckBtn = item.querySelector('.tour-price-check-btn');
+          if (tourPriceCheckBtn) {
+            tourPriceCheckBtn.onclick = (e) => {
+              e.stopPropagation();
+              const url = tourPriceCheckBtn.getAttribute('data-url');
+              if (url) {
+                console.log('🎒 투어 가격확인 클릭:', url);
                 window.open(url, '_blank');
               }
             };
@@ -5842,6 +6112,7 @@ function isSpotInMyMap(spotName) {
               e.stopPropagation();
               const url = hotelBookingBtn.getAttribute('data-url');
               if (url) {
+                trackHotelBooking(spot.name);
                 console.log('🏨 호텔 예약 클릭:', url);
                 window.open(url, '_blank');
               }
@@ -5855,6 +6126,7 @@ function isSpotInMyMap(spotName) {
               e.stopPropagation();
               const url = tourBookingBtn.getAttribute('data-url');
               if (url) {
+                trackTourBooking(spot.name);
                 console.log('🎒 투어 예약 클릭:', url);
                 window.open(url, '_blank');
               }
@@ -6084,12 +6356,7 @@ function isSpotInMyMap(spotName) {
             // 👁️ 조회수 증가 + 서버에서 최신 통계 로드
             incrementViewCount(spot.name);
             // GA 스팟 클릭 이벤트
-            if (typeof gtag !== 'undefined') {
-              gtag('event', 'spot_click', {
-                'event_category': currentMainCategory || '기타',
-                'event_label': spot.name
-              });
-            }
+            try { google.script.run.sendGA4Event('user_action', 'spot_click', {spot_name: spot.name, category: currentMainCategory || '기타', city: '하노이'}); } catch(e) {}
             loadSpotReactionsFromServer(spot.name, (spot.category || '').split(' > ')[0].replace(/\[|\]/g,'').trim());
             
             // 📜 현재 스크롤 위치 저장 (상세페이지 닫을 때 복원하기 위해)
@@ -6855,7 +7122,8 @@ function saveMyMapWithCode(categoryId, categoryName) {
   const minSpots = categorySpots.map(s => ({
     n: s.name, la: s.lat, lo: s.lng,
     c: s.category, i: s.icon || '',
-    ci: s.customCategoryId || ''
+    ci: s.customCategoryId || '',
+    de: s.description || ''
   }));
 
   const payload = JSON.stringify({
@@ -7065,12 +7333,7 @@ function refreshViewCount(spotName) {
 // 🎬 유튜브 채널 이동 헬퍼 함수 (팝업 차단 우회)
 function openYoutubeChannel() {
   // GA 이벤트 추적
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'youtube_subscribe_click', {
-      'event_category': 'engagement',
-      'event_label': 'roadgation_channel'
-    });
-  }
+  try { google.script.run.sendGA4Event('user_action', 'youtube_subscribe_click', {city: '하노이'}); } catch(e) {}
   const youtubeUrl = 'https://www.youtube.com/@roadgation?sub_confirmation=1';
   const a = document.createElement('a');
   a.href = youtubeUrl;
@@ -7871,6 +8134,7 @@ function displayMyMapSpots(spots) {
                 '<div onclick="openYoutubeChannel()" style="display:flex;flex-direction:row;align-items:center;justify-content:center;background:linear-gradient(135deg,#6a4c9c,#9b59b6);color:white;border-radius:8px;padding:5px 10px;cursor:pointer;gap:5px;width:100%;"><span style="font-size:13px;">▶️</span><span style="font-size:10px;font-weight:700;">구독</span></div>' +
           '</div>' +
           (mainCategory === '호텔' ? (hotelBookingUrl ? '<button class="hotel-price-check-btn" data-url="' + escapeHtml(hotelBookingUrl) + '">💰 호텔가격확인</button>' : '<button class="hotel-booking-disabled" disabled style="font-size:12px;padding:6px 8px;">🚫 일시적 예약 불가</button>') : '') +
+          (tourBookingUrl ? '<button class="tour-price-check-btn" data-url="' + escapeHtml(tourBookingUrl) + '">🎒 투어가격확인</button>' : '') +
         '</div>' +
         '<button class="delete-spot-btn" title="삭제">🗑️</button>' +
       '</div>' +
@@ -7918,6 +8182,7 @@ function displayMyMapSpots(spots) {
       if (mymapBtn) {
         mymapBtn.onclick = (e) => {
           e.stopPropagation();
+          trackMyMapSave(spot.name || spotName);
           openSaveSpotModal(spot);
         };
         
@@ -7941,6 +8206,7 @@ function displayMyMapSpots(spots) {
       if (directionsBtn) {
         directionsBtn.onclick = (e) => {
           e.stopPropagation();
+          trackDirections(spot.name || spotName);
           if (spot.lat && spot.lng) {
             window.open('https://www.google.com/maps/dir/?api=1&destination=' + spot.lat + ',' + spot.lng + '&destination_place_name=' + encodeURIComponent(spot.name || spotName), '_blank');
           } else {
@@ -7956,6 +8222,7 @@ function displayMyMapSpots(spots) {
       if (shareBtn) {
         shareBtn.onclick = (e) => {
           e.stopPropagation();
+          trackSpotShare(spotName);
           if (typeof shareSpot === 'function') {
             shareSpot(spotName);
           }
@@ -7969,7 +8236,21 @@ function displayMyMapSpots(spots) {
           e.stopPropagation();
           const url = hotelPriceCheckBtn.getAttribute('data-url');
           if (url) {
+            trackHotelPriceCheck(spot.name || spotName);
             console.log('💰 호텔 가격확인 클릭 (나만의 지도):', url);
+            window.open(url, '_blank');
+          }
+        };
+      }
+
+      // 🎒 투어 가격확인 버튼 (리스트 카드)
+      const tourPriceCheckBtn = item.querySelector('.tour-price-check-btn');
+      if (tourPriceCheckBtn) {
+        tourPriceCheckBtn.onclick = (e) => {
+          e.stopPropagation();
+          const url = tourPriceCheckBtn.getAttribute('data-url');
+          if (url) {
+            console.log('🎒 투어 가격확인 클릭 (나만의 지도):', url);
             window.open(url, '_blank');
           }
         };
@@ -7982,6 +8263,7 @@ function displayMyMapSpots(spots) {
           e.stopPropagation();
           const url = hotelBookingBtn.getAttribute('data-url');
           if (url) {
+            trackHotelBooking(spot.name || spotName);
             console.log('🏨 호텔 예약 클릭 (나만의 지도):', url);
             window.open(url, '_blank');
           }
@@ -7995,6 +8277,7 @@ function displayMyMapSpots(spots) {
           e.stopPropagation();
           const url = tourBookingBtn.getAttribute('data-url');
           if (url) {
+            trackTourBooking(spot.name || spotName);
             console.log('🎒 투어 예약 클릭 (나만의 지도):', url);
             window.open(url, '_blank');
           }
@@ -8473,7 +8756,35 @@ function openSaveSpotModal(spot) {
   // 입력창 초기화
   const inputField = document.getElementById('newCategoryInput');
   inputField.value = '';
-  
+
+  // 🔥 iOS Safari 자동 줌 방지: body position:fixed 일시 해제
+  inputField.onfocus = function() {
+    document.body.style.position = '';
+    document.body.style.overflow = '';
+
+    // ===== 디버그 =====
+    var cs = window.getComputedStyle(inputField);
+    console.log('[FOCUS] font-size:', cs.fontSize);
+    console.log('[FOCUS] body.position:', document.body.style.position);
+    console.log('[FOCUS] body.overflow:', document.body.style.overflow);
+    console.log('[FOCUS] visualViewport.scale:', window.visualViewport ? window.visualViewport.scale : 'N/A');
+    var metaVp = document.querySelector('meta[name=viewport]');
+    console.log('[FOCUS] viewport content:', metaVp ? metaVp.content : 'N/A');
+    // ===== 디버그 끝 =====
+  };
+  inputField.onblur = function() {
+    document.body.style.position = 'fixed';
+    document.body.style.overflow = 'hidden';
+    console.log('[BLUR] visualViewport.scale:', window.visualViewport ? window.visualViewport.scale : 'N/A');
+  };
+
+  // visualViewport 줌 감지
+  if (window.visualViewport) {
+    window.visualViewport.onresize = function() {
+      console.log('[VIEWPORT RESIZE] scale:', window.visualViewport.scale, '| width:', window.visualViewport.width, '| offsetTop:', window.visualViewport.offsetTop);
+    };
+  }
+
   // 🔥 Enter 키로 새 카테고리 만들고 바로 저장
   inputField.onkeypress = function(e) {
     if (e.key === 'Enter') {
@@ -8987,7 +9298,7 @@ function showToast(message, type) {
   </script>
 
   <!-- Google Maps API -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0T44dRxiH9JWSZT6mdYNVPFUvXOGCYo4&callback=initMap&libraries=places&language=ko" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0T44dRxiH9JWSZT6mdYNVPFUvXOGCYo4&callback=initMap&libraries=places&language=ko&loading=async" async defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <!-- ============================================ -->
@@ -9013,11 +9324,13 @@ function showToast(message, type) {
             id="newCategoryInput" 
             placeholder="예: 서울 여행, 부산 맛집..."
             maxlength="20"
+            style="font-size: 16px;"
           />
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" onclick="closeCategorySelectModal()" style="width: 100%;">닫기</button>
+        <button class="btn btn-primary" onclick="confirmSaveSpot()" style="width: 100%; margin-bottom: 8px;">확인</button>
+        <button class="btn" onclick="closeCategorySelectModal()" style="width: 100%;">닫기</button>
       </div>
     </div>
   </div>
@@ -9673,6 +9986,16 @@ function showToast(message, type) {
         <button class="ai-choice-close" onclick="closeAIChoiceModal()">×</button>
       </div>
       <div class="ai-choice-body">
+        <!-- 메인: AI 추천일정 자동 생성하기 -->
+        <button class="ai-choice-btn main-btn" onclick="openNewAISchedule()">
+          <span class="choice-icon">✨</span>
+          <div class="choice-text">
+            <div class="choice-title">AI 추천일정 자동 생성하기</div>
+            <div class="choice-desc">AI에게 맞춤 여행 일정을 새로 만들어 받기</div>
+          </div>
+        </button>
+        <!-- 구분선 -->
+        <div class="ai-choice-divider">저장된 코드로 불러오기</div>
         <!-- 일정표 업로드 -->
         <button class="ai-choice-btn" onclick="openUploadSchedule()">
           <span class="choice-icon">📂</span>
@@ -9687,14 +10010,6 @@ function showToast(message, type) {
           <div class="choice-text">
             <div class="choice-title">나만의 지도 불러오기</div>
             <div class="choice-desc">저장된 MY코드(MY○○○○○○)로 나만의 지도 불러오기</div>
-          </div>
-        </button>
-        <!-- 새로운 일정 생성 -->
-        <button class="ai-choice-btn" onclick="openNewAISchedule()">
-          <span class="choice-icon">✨</span>
-          <div class="choice-text">
-            <div class="choice-title">새로운 일정 생성하기</div>
-            <div class="choice-desc">AI에게 맞춤 여행 일정을 새로 만들어 받기</div>
           </div>
         </button>
       </div>
@@ -10282,6 +10597,9 @@ function showToast(message, type) {
           <button onclick="downloadAIScheduleJSON()" style="padding:10px 20px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:20px;font-size:15.5px;font-weight:700;cursor:pointer;box-shadow:0 3px 10px rgba(102,126,234,0.4);display:flex;align-items:center;gap:6px;">
             📥 완성된 AI일정 다운받기
           </button>
+          <button onclick="reGenerateAISchedule()" style="padding:10px 20px;background:linear-gradient(135deg,#ff6b6b,#ee5a24);color:white;border:none;border-radius:20px;font-size:15.5px;font-weight:700;cursor:pointer;box-shadow:0 3px 10px rgba(238,90,36,0.4);display:flex;align-items:center;gap:6px;">
+            🔄 AI일정 다시 받기
+          </button>
         </div>
       </div>
       <!-- 탭 버튼 -->
@@ -10292,11 +10610,16 @@ function showToast(message, type) {
         <button class="schedule-tab-btn" id="tabBtnHotel" onclick="switchScheduleTab('hotel')">
           🏨 추천 호텔
         </button>
+        <button class="schedule-tab-btn" id="tabBtnFlight" onclick="switchScheduleTab('flight')">
+          ✈️ 항공권
+        </button>
       </div>
       <!-- 일정표 패널 -->
       <div id="tabPanelSchedule" class="schedule-tab-panel active"></div>
       <!-- 호텔 패널 -->
       <div id="tabPanelHotel" class="schedule-tab-panel"></div>
+      <!-- 항공권 패널 -->
+      <div id="tabPanelFlight" class="schedule-tab-panel"></div>
     </div>
   </div>
   
@@ -10308,6 +10631,7 @@ function showToast(message, type) {
     
     // 모달 열기 (전역 함수로 등록)
     window.openAIScheduleModal = function() {
+      trackAIScheduleOpen();
       // 🔀 선택 화면 먼저 띄우기 (업로드 vs 새 생성)
       const choiceModal = document.getElementById('aiChoiceModal');
       if (choiceModal) choiceModal.classList.add('show');
@@ -10325,6 +10649,12 @@ function showToast(message, type) {
 
       const code = prompt('🔢 저장된 나만의 지도 코드를 입력해주세요\n(예: MYABC123)', '');
       if (code === null || code.trim() === '') return;
+
+      // ✅ 잘못된 코드 접두사 안내
+      if (code.trim().toUpperCase().startsWith('AI')) {
+        showCuteToast('⚠️ 해당 코드는 AI 일정 코드입니다. MY로 시작하는 코드로 다시 확인해주세요.');
+        return;
+      }
 
       showCuteToast('⏳ 나만의 지도를 불러오는 중...');
 
@@ -10358,6 +10688,7 @@ function showToast(message, type) {
             myMapSpots.push({
               name: s.n, lat: s.la, lng: s.lo,
               category: s.c, icon: s.i || '',
+              description: s.de || '',
               customCategoryId: categoryId,
               customCategoryName: categoryName
             });
@@ -10388,6 +10719,12 @@ function showToast(message, type) {
 
       const code = prompt('🔢 저장된 AI 일정 코드를 입력해주세요\n(예: AIABC123)', '');
       if (code === null || code.trim() === '') return;
+
+      // ✅ 잘못된 코드 접두사 안내
+      if (code.trim().toUpperCase().startsWith('MY')) {
+        showCuteToast('⚠️ 해당 코드는 나만의 지도 코드입니다. AI로 시작하는 코드로 다시 확인해주세요.');
+        return;
+      }
 
       showCuteToast('⏳ 일정을 불러오는 중...');
 
@@ -10429,6 +10766,20 @@ function showToast(message, type) {
       document.body.appendChild(script);
     }
 
+
+    // 🔄 AI 일정 다시 받기 (동일 설문 데이터로 재생성)
+    window.reGenerateAISchedule = function() {
+      if (!window.lastExpertSurveyFullData && !window._lastBeginnerSurveyData) {
+        showCuteToast("⚠️ 먼저 AI 일정을 생성해주세요.");
+        return;
+      }
+      if (typeof showCuteToast === "function") showCuteToast("🔄 AI 일정을 다시 생성 중...");
+      if (window._lastBeginnerSurveyData) {
+        generateAISchedule(window._lastBeginnerSurveyData);
+      } else {
+        generateAISchedule(window.lastExpertSurveyFullData);
+      }
+    };
     // 📥 AI 일정 링크로 저장 (TinyURL로 단축)
     window.downloadAIScheduleJSON = function() {
       if (!aiRecommendSpots || aiRecommendSpots.length === 0) {
@@ -10440,12 +10791,24 @@ function showToast(message, type) {
 
       try {
         const startDate = localStorage.getItem('aiScheduleStartDate') || '';
+        const endDate   = localStorage.getItem('aiScheduleEndDate')   || '';
         const minSpots = aiRecommendSpots.map(s => ({
           n: s.name, la: s.lat, lo: s.lng,
           c: s.category, i: s.icon || '',
           d: s.aiDay || 0, t: s.aiTimeSlot || '', o: s.order || 0
         }));
-        const payload = JSON.stringify({ s: minSpots, sd: startDate });
+
+        // ✅ 상세 일정 HTML도 함께 저장 (코드로 불러올 때 상세내역 복원용)
+        const schedPanel = document.getElementById('tabPanelSchedule');
+        const scheduleHTML = (schedPanel && schedPanel.innerHTML.trim())
+          ? schedPanel.innerHTML
+          : (localStorage.getItem('latestAIScheduleHTML') || '');
+        const hotelPanel = document.getElementById('tabPanelHotel');
+        const hotelHTML = (hotelPanel && hotelPanel.innerHTML.trim())
+          ? hotelPanel.innerHTML
+          : (localStorage.getItem('latestAIHotelHTML') || '');
+
+        const payload = JSON.stringify({ s: minSpots, sd: startDate, ed: endDate, scheduleHTML: scheduleHTML, hotelHTML: hotelHTML });
 
         // 저장은 google.script.run 사용 (데이터 크기 제한 없음)
         google.script.run
@@ -10530,6 +10893,7 @@ function showToast(message, type) {
     window.copyShareLink = function() {
       const code = _savedCode;
       if (!code) return;
+      trackCodeCopy();
       if (navigator.clipboard) {
         navigator.clipboard.writeText(code).then(() => showCuteToast('📋 코드가 복사되었습니다!'));
       } else {
@@ -10723,7 +11087,7 @@ function showToast(message, type) {
     // ✨ 초보용 설문 제출
     // ============================================
     function submitBeginnerAISurvey() {
-      if (typeof gtag !== 'undefined') gtag('event', 'ai_schedule_generate', {'event_category': 'engagement'});
+      try { google.script.run.sendGA4Event('user_action', 'ai_schedule_generate', {city: '하노이'}); } catch(e) {}
       const days = parseInt(document.getElementById('bSurveyDays').value) || 3;
 
       function getScale(target) {
@@ -10757,6 +11121,7 @@ function showToast(message, type) {
         _beginnerMode:   true
       };
 
+      window._lastBeginnerSurveyData = beginnerData;
       console.log('📋 초보용 설문 데이터:', beginnerData);
       closeAISurvey();
 
@@ -11683,6 +12048,12 @@ function showToast(message, type) {
       
       if (restaurantShortage > 0) {
         console.warn(`⚠️ 맛집 부족: ${requiredRestaurants}개 필요, ${restaurants.length}개 존재 (부족: ${restaurantShortage}개)`);
+
+        // ✅ [버그수정] 자동 조정 후 재생성 시 모달 반복 표시 방지
+        if (window._skipShortageModal) {
+          console.log('⏩ 자동 조정 후 재생성 중 → 부족 모달 스킵');
+          window._skipShortageModal = false;
+        } else {
         
         // ✅ 새로 추가: 자동 조정 동의 모달 표시
         const currentSurveyData = {
@@ -11701,6 +12072,8 @@ function showToast(message, type) {
         
         console.log('🔧 자동 조정 동의 모달 표시');
         showAutoAdjustConfirmModal(currentSurveyData, days, requiredRestaurants, restaurants.length);
+
+        } // ✅ [버그수정] else 닫힘
         
         // 기존 경고 메시지도 유지 (모달 닫으면 보임)
         const tips = [];
@@ -12701,7 +13074,16 @@ function showToast(message, type) {
         
         // 관광지
         if (morningAttraction) {
-          html += buildAttractionCard(morningAttraction.attraction);
+          // ✅ allSpots에서 동명 스팟 찾아 투어 URL 추출 (호텔과 동일 방식)
+          const _mAttrCleanName = morningAttraction.attraction.Name.replace(/\[.*?\]/g, '').trim();
+          const _mMatchedSpot = allSpots.find(s => (s.name || '').replace(/\[.*?\]/g, '').trim() === _mAttrCleanName);
+          // 🔥 1차 필터: 상세페이지와 동일 조건 — category 문자열에서 midCategory 추출 후 '현지투어' 확인
+          const _mMidCat = _mMatchedSpot ? ((_mMatchedSpot.category || '').split(' > ')[1] || '').replace(/\[|\]/g, '').trim() : '';
+          const _mTourUrlMatch = (_mMidCat === '현지투어')
+            ? (_mMatchedSpot.description || '').match(/https?:\/\/(?!.*youtube\.com|.*youtu\.be)[^\s\n]+/)
+            : null;
+          const _mTourUrl = _mTourUrlMatch ? _mTourUrlMatch[0].replace(/[-.,;:!?]+$/, '') : '';
+          html += buildAttractionCard(morningAttraction.attraction, _mTourUrl);
           console.log(`Day ${day} 아침-관광: ${morningAttraction.attraction.Name} (추천시간대: ${morningAttraction.attraction.RecommendedTime}, 우선순위: ${morningAttraction.priority})`);
           // 🤖 관광지 aiRecommendSpots 직접 push (setLastPos 경유 시 lat=0 조기리턴 방지)
           daySpotOrder++;
@@ -12715,6 +13097,7 @@ function showToast(message, type) {
             aiTimeSlot: 'morning',
             order: daySpotOrder,
             description: morningAttraction.attraction.Description || '',
+            tourBookingUrl:  _mTourUrl,
             Name:            morningAttraction.attraction.Name,
             OpenTime:        morningAttraction.attraction.OpenTime,
             CloseTime:       morningAttraction.attraction.CloseTime,
@@ -12779,7 +13162,16 @@ function showToast(message, type) {
         
         // 관광지 (이미 배치됨)
         if (afternoonAttraction) {
-          html += buildAttractionCard(afternoonAttraction.attraction);
+          // ✅ allSpots에서 동명 스팟 찾아 투어 URL 추출
+          const _aAttrCleanName = afternoonAttraction.attraction.Name.replace(/\[.*?\]/g, '').trim();
+          const _aMatchedSpot = allSpots.find(s => (s.name || '').replace(/\[.*?\]/g, '').trim() === _aAttrCleanName);
+          // 🔥 1차 필터: 상세페이지와 동일 조건 — category 문자열에서 midCategory 추출 후 '현지투어' 확인
+          const _aMidCat = _aMatchedSpot ? ((_aMatchedSpot.category || '').split(' > ')[1] || '').replace(/\[|\]/g, '').trim() : '';
+          const _aTourUrlMatch = (_aMidCat === '현지투어')
+            ? (_aMatchedSpot.description || '').match(/https?:\/\/(?!.*youtube\.com|.*youtu\.be)[^\s\n]+/)
+            : null;
+          const _aTourUrl = _aTourUrlMatch ? _aTourUrlMatch[0].replace(/[-.,;:!?]+$/, '') : '';
+          html += buildAttractionCard(afternoonAttraction.attraction, _aTourUrl);
           console.log(`Day ${day} 점심-관광: ${afternoonAttraction.attraction.Name} (추천시간대: ${afternoonAttraction.attraction.RecommendedTime}, 우선순위: ${afternoonAttraction.priority})`);
           daySpotOrder++;
           aiRecommendSpots.push({
@@ -12792,6 +13184,7 @@ function showToast(message, type) {
             aiTimeSlot: 'afternoon',
             order: daySpotOrder,
             description: afternoonAttraction.attraction.Description || '',
+            tourBookingUrl:  _aTourUrl,
             Name:            afternoonAttraction.attraction.Name,
             OpenTime:        afternoonAttraction.attraction.OpenTime,
             CloseTime:       afternoonAttraction.attraction.CloseTime,
@@ -12859,7 +13252,16 @@ function showToast(message, type) {
         
         // 관광지 (이미 배치됨)
         if (eveningAttraction) {
-          html += buildAttractionCard(eveningAttraction.attraction);
+          // ✅ allSpots에서 동명 스팟 찾아 투어 URL 추출
+          const _eAttrCleanName = eveningAttraction.attraction.Name.replace(/\[.*?\]/g, '').trim();
+          const _eMatchedSpot = allSpots.find(s => (s.name || '').replace(/\[.*?\]/g, '').trim() === _eAttrCleanName);
+          // 🔥 1차 필터: 상세페이지와 동일 조건 — category 문자열에서 midCategory 추출 후 '현지투어' 확인
+          const _eMidCat = _eMatchedSpot ? ((_eMatchedSpot.category || '').split(' > ')[1] || '').replace(/\[|\]/g, '').trim() : '';
+          const _eTourUrlMatch = (_eMidCat === '현지투어')
+            ? (_eMatchedSpot.description || '').match(/https?:\/\/(?!.*youtube\.com|.*youtu\.be)[^\s\n]+/)
+            : null;
+          const _eTourUrl = _eTourUrlMatch ? _eTourUrlMatch[0].replace(/[-.,;:!?]+$/, '') : '';
+          html += buildAttractionCard(eveningAttraction.attraction, _eTourUrl);
           console.log(`Day ${day} 저녁-관광: ${eveningAttraction.attraction.Name} (추천시간대: ${eveningAttraction.attraction.RecommendedTime}, 우선순위: ${eveningAttraction.priority})`);
           daySpotOrder++;
           aiRecommendSpots.push({
@@ -12872,6 +13274,7 @@ function showToast(message, type) {
             aiTimeSlot: 'evening',
             order: daySpotOrder,
             description: eveningAttraction.attraction.Description || '',
+            tourBookingUrl:  _eTourUrl,
             Name:            eveningAttraction.attraction.Name,
             OpenTime:        eveningAttraction.attraction.OpenTime,
             CloseTime:       eveningAttraction.attraction.CloseTime,
@@ -13091,8 +13494,24 @@ function showToast(message, type) {
           '레스토랑': '🍽️', '바': '🍹', '주차장': '🅿️', '피트니스': '🏋️',
           '조식': '🍳', '수영': '🏊', '비즈니스센터': '💼', '스파·마사지': '🧖'
         };
-
-        // 정렬 기준 안내 배너
+        const facilityColors = {
+          '수영장':      { bg:'#e3f2fd', color:'#0277bd', border:'#90caf9' },
+          '헬스장':      { bg:'#fce4ec', color:'#c62828', border:'#f48fb1' },
+          '스파':        { bg:'#f3e5f5', color:'#6a1b9a', border:'#ce93d8' },
+          '스파/마사지': { bg:'#f3e5f5', color:'#6a1b9a', border:'#ce93d8' },
+          '스파·마사지': { bg:'#f3e5f5', color:'#6a1b9a', border:'#ce93d8' },
+          '공항셔틀':    { bg:'#e8f5e9', color:'#2e7d32', border:'#a5d6a7' },
+          '공항 셔틀':   { bg:'#e8f5e9', color:'#2e7d32', border:'#a5d6a7' },
+          '루프탑바':    { bg:'#fff3e0', color:'#e65100', border:'#ffcc80' },
+          '루프탑 바':   { bg:'#fff3e0', color:'#e65100', border:'#ffcc80' },
+          '레스토랑':    { bg:'#fff8e1', color:'#f57f17', border:'#ffe082' },
+          '바':          { bg:'#fbe9e7', color:'#bf360c', border:'#ffab91' },
+          '주차장':      { bg:'#eceff1', color:'#37474f', border:'#b0bec5' },
+          '피트니스':    { bg:'#fce4ec', color:'#ad1457', border:'#f48fb1' },
+          '조식':        { bg:'#fffde7', color:'#f9a825', border:'#fff176' },
+          '비즈니스센터':{ bg:'#e8eaf6', color:'#283593', border:'#9fa8da' },
+        };
+        const facilityColorDefault = { bg:'#f0f4ff', color:'#3d5afe', border:'#c5cae9' };
         let sortLabelHtml = '';
         if (hotelDistance >= 4) {
           sortLabelHtml = `<div style="font-size: 15.5px; color:#667eea; background:#f0f0ff; border:1px solid #c5c0f5; border-radius:8px; padding:8px 12px; margin-bottom:4px; text-align:center;">🏙️ 시내 중심부 선호 기준 정렬 · <strong>1순위</strong>가 일정 동선상 가장 중심에 위치</div>`;
@@ -13107,8 +13526,11 @@ function showToast(message, type) {
           let facilitiesHtml = '';
           if (hotel.Facilities) {
             const items = hotel.Facilities.split(/[,，/·•]+/).map(f => f.trim()).filter(f => f);
-            facilitiesHtml = `<div class="hotel-facility-tags">` +
-              items.map(f => `<span class="hotel-facility-tag">${facilityIcons[f] || '✨'} ${f}</span>`).join('') +
+            facilitiesHtml = `<div class="hotel-facility-tags" style="margin-bottom:6px;">` +
+              items.map(f => {
+                const c = facilityColors[f] || facilityColorDefault;
+                return `<span class="hotel-facility-tag" style="background:${c.bg};color:${c.color};border-color:${c.border};">${facilityIcons[f] || '✨'} ${f}</span>`;
+              }).join('') +
             `</div>`;
           }
           let notes = hotel.Notes || '';
@@ -13208,10 +13630,14 @@ function showToast(message, type) {
         saveAIScheduleToLocalStorage(aiRecommendSpots);
         console.log('💾 AI 일정 저장 완료:', aiRecommendSpots.length, '개 스팟');
       }
-      // 🔥 여행 시작일도 저장 (rebuildScheduleHTML에서 날짜 복원에 사용)
+      // 🔥 여행 시작일/종료일 저장 (rebuildScheduleHTML 및 항공권 탭에서 사용)
       if (surveyData.startDate) {
         localStorage.setItem('aiScheduleStartDate', surveyData.startDate);
         console.log('💾 여행 시작일 저장:', surveyData.startDate);
+      }
+      if (surveyData.endDate) {
+        localStorage.setItem('aiScheduleEndDate', surveyData.endDate);
+        console.log('💾 여행 종료일 저장:', surveyData.endDate);
       }
       
       // 🤖 대분류에 "완성된 AI 일정" 버튼 슬라이딩 추가
@@ -13379,7 +13805,7 @@ function showToast(message, type) {
     }
     
     // 관광지 카드 HTML 생성
-    function buildAttractionCard(attraction) {
+    function buildAttractionCard(attraction, tourBookingUrl) {
       const cleanName = attraction.Name.replace(/\[.*?\]/g, '').trim();
       // 🗺️ 지도 마커 수집 메타 설정
       window._mapSpotMeta = { name: cleanName, type: 'attraction', icon: '🏛️', category: '관광지', Name: attraction.Name, OpenTime: attraction.OpenTime, CloseTime: attraction.CloseTime, ClosedDay: attraction.ClosedDay, Description: attraction.Description, RecommendedTime: attraction.RecommendedTime };
@@ -13472,6 +13898,12 @@ function showToast(message, type) {
         }
       }
       
+      // ✅ 투어 예약 버튼: morning/afternoon/evening에서 category '현지투어' 필터 통과한 URL만 전달됨
+      const _tourBookingUrl = tourBookingUrl || '';
+      const _tourBtn = _tourBookingUrl
+        ? `<button onclick="event.stopPropagation();window.open('${_tourBookingUrl}','_blank')" style="display:block;width:100%;margin-top:10px;padding:11px 0;background:linear-gradient(135deg,#43a047,#66bb6a);color:white;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 3px 10px rgba(67,160,71,0.4);">🎒 투어 예약 바로가기</button>`
+        : '';
+
       return `
         <div class="spot-card" ${_onclickAttr}>
           <div class="spot-icon">🏛️</div>
@@ -13482,6 +13914,7 @@ function showToast(message, type) {
             </div>
             ${description ? `<div class="spot-desc">${description.replace(/\r\n|\r/g, '\n').replace(/\n/g, '<br>')}</div>` : ''}
             <div class="time-info-line">${timeInfo}</div>
+            ${_tourBtn}
           </div>
         </div>
       `;
@@ -13539,20 +13972,221 @@ function showToast(message, type) {
       }, 150);
     }
 
-    // 📅🏨 탭 전환 함수
+    // 📅🏨✈️ 탭 전환 함수
     function switchScheduleTab(tab) {
       const panels = document.querySelectorAll('.schedule-tab-panel');
       const btns   = document.querySelectorAll('.schedule-tab-btn');
       panels.forEach(p => p.classList.remove('active'));
       btns.forEach(b => b.classList.remove('active'));
 
-      const targetPanel = document.getElementById(tab === 'hotel' ? 'tabPanelHotel' : 'tabPanelSchedule');
-      const targetBtn   = document.getElementById(tab === 'hotel' ? 'tabBtnHotel'   : 'tabBtnSchedule');
+      let targetPanel, targetBtn;
+      if (tab === 'hotel') {
+        targetPanel = document.getElementById('tabPanelHotel');
+        targetBtn   = document.getElementById('tabBtnHotel');
+      } else if (tab === 'flight') {
+        targetPanel = document.getElementById('tabPanelFlight');
+        targetBtn   = document.getElementById('tabBtnFlight');
+        // 항공권 탭 클릭 시 구글 플라이트 카드 렌더링
+        renderFlightPanel();
+      } else {
+        targetPanel = document.getElementById('tabPanelSchedule');
+        targetBtn   = document.getElementById('tabBtnSchedule');
+      }
       if (targetPanel) targetPanel.classList.add('active');
       if (targetBtn)   targetBtn.classList.add('active');
     }
 
-    // ============================================
+    // ✈️ 항공권 패널 상태
+    // ✈️ 항공권 패널 상태
+    var flightState = { airport: 'ICN', airportName: '인천', startDate: '', endDate: '' };
+    var AIRPORT_OPTIONS = [
+      { code: 'ICN', name: '인천' }, { code: 'GMP', name: '김포' },
+      { code: 'PUS', name: '부산' }, { code: 'TAE', name: '대구' }, { code: 'CJU', name: '제주' }
+    ];
+    var _flightRangeStart = null, _flightRangeEnd = null;
+    var _flightCalYear = new Date().getFullYear(), _flightCalMonth = new Date().getMonth();
+    var _flightCalOpen = false;
+
+    function renderFlightPanel() {
+      var panel = document.getElementById('tabPanelFlight');
+      if (!panel) return;
+      // ✅ [버그수정] 항공권 탭 열 때마다 항상 최신 localStorage 값으로 갱신
+      // 기존: if(!flightState.startDate) 조건 때문에 초보자 날짜가 전문가 날짜로 안 바뀌는 버그
+      flightState.startDate = localStorage.getItem('aiScheduleStartDate') || flightState.startDate || '';
+      flightState.endDate   = localStorage.getItem('aiScheduleEndDate')   || flightState.endDate   || '';
+      _flightRangeStart = flightState.startDate || null;
+      _flightRangeEnd   = flightState.endDate   || null;
+      if (_flightRangeStart) { var d0 = new Date(_flightRangeStart+'T00:00:00'); _flightCalYear = d0.getFullYear(); _flightCalMonth = d0.getMonth(); }
+      _renderFlightHTML();
+    }
+
+    function _renderFlightHTML() {
+      var panel = document.getElementById('tabPanelFlight');
+      if (!panel) return;
+
+      function toNaverDate(d) { return d ? d.replace(/-/g,'') : ''; }
+      function fmtDisp(d) {
+        if (!d) return '날짜 선택';
+        var dt = new Date(d+'T00:00:00');
+        return (dt.getMonth()+1) + '/' + dt.getDate() + ' (' + ['일','월','화','수','목','금','토'][dt.getDay()] + ')';
+      }
+      var startFmt = toNaverDate(flightState.startDate);
+      var endFmt   = toNaverDate(flightState.endDate);
+      var naverUrl = (startFmt && endFmt)
+        ? 'https://flight.naver.com/flights/international/' + flightState.airport + '-HAN-' + startFmt + '/HAN-' + flightState.airport + '-' + endFmt + '?adult=1&fareType=Y'
+        : 'https://flight.naver.com/flights/international/' + flightState.airport + '-HAN';
+
+      var nightsStr = '';
+      if (flightState.startDate && flightState.endDate) {
+        var diff = Math.ceil((new Date(flightState.endDate) - new Date(flightState.startDate)) / 86400000);
+        if (diff > 0) nightsStr = diff + '박 ' + (diff+1) + '일';
+      }
+
+      // 공항 버튼
+      var airportBtns = '';
+      for (var i = 0; i < AIRPORT_OPTIONS.length; i++) {
+        var ap = AIRPORT_OPTIONS[i];
+        var active = (ap.code === flightState.airport);
+        var bs = active
+          ? 'padding:7px 16px;border-radius:20px;border:2px solid #667eea;background:#667eea;color:white;font-size:15px;font-weight:700;cursor:pointer;'
+          : 'padding:7px 16px;border-radius:20px;border:2px solid #e0e0e0;background:white;color:#555;font-size:15px;font-weight:600;cursor:pointer;';
+        airportBtns += '<button onclick="selectFlightAirport(\'' + ap.code + '\',\'' + ap.name + '\')" style="' + bs + '">' + ap.name + '(' + ap.code + ')</button>';
+      }
+
+      // 날짜 트리거 테두리색
+      var borderColor = flightState.startDate ? '#667eea' : '#e0e0e0';
+
+      // 달력 팝업 HTML
+      var calHtml = '';
+      if (_flightCalOpen) {
+        var mNames = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+        calHtml += '<div onclick="event.stopPropagation()" style="margin-top:8px;border:2px solid #667eea;border-radius:16px;background:#fff;box-shadow:0 8px 32px rgba(102,126,234,0.18);padding:16px;user-select:none;">';
+        calHtml += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">';
+        calHtml += '<button onclick="moveFlightCal(-1)" style="background:none;border:none;font-size:20px;cursor:pointer;color:#667eea;padding:4px 8px;border-radius:8px;">‹</button>';
+        calHtml += '<div id="flightCalLabel" style="font-size:15px;font-weight:700;color:#333;">' + _flightCalYear + '년 ' + mNames[_flightCalMonth] + '</div>';
+        calHtml += '<button onclick="moveFlightCal(1)" style="background:none;border:none;font-size:20px;cursor:pointer;color:#667eea;padding:4px 8px;border-radius:8px;">›</button>';
+        calHtml += '</div>';
+        calHtml += '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:6px;">';
+        var dnames = ['일','월','화','수','목','금','토'];
+        for (var di=0;di<7;di++) calHtml += '<div style="text-align:center;font-size:13px;font-weight:700;color:#999;padding:4px 0;">' + dnames[di] + '</div>';
+        calHtml += '</div>';
+        calHtml += '<div id="flightCalGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;"></div>';
+        var hintTxt = !_flightRangeStart ? '출발 날짜를 선택하세요' : (!_flightRangeEnd ? '귀국 날짜를 선택하세요' : '');
+        calHtml += '<div id="flightCalHint" style="text-align:center;font-size:13px;color:#999;margin-top:10px;">' + hintTxt + '</div>';
+        calHtml += '</div>';
+      }
+
+      var h = '';
+      h += '<div style="padding:16px;">';
+
+      // 출발 공항
+      h += '<div style="margin-bottom:20px;">';
+      h += '<h3 style="color:#667eea;margin-bottom:12px;font-size:18px;">✈️ 출발 공항</h3>';
+      h += '<div style="display:flex;flex-wrap:wrap;gap:8px;">' + airportBtns + '</div>';
+      h += '</div>';
+
+      // 여행 기간 (설문지 스타일 그대로)
+      h += '<div style="margin-bottom:20px;">';
+      h += '<h3 style="color:#667eea;margin-bottom:12px;font-size:18px;">📅 여행 기간</h3>';
+      h += '<div onclick="toggleFlightCal()" style="display:flex;align-items:center;gap:10px;padding:12px 16px;border:2px solid ' + borderColor + ';border-radius:12px;cursor:pointer;background:#fff;transition:border-color 0.2s;">';
+      h += '  <span style="font-size:18px;">✈️</span>';
+      h += '  <div style="flex:1;text-align:center;">';
+      h += '    <div style="font-size:15.5px;color:#999;margin-bottom:2px;">출발</div>';
+      h += '    <div style="font-size:15.5px;font-weight:600;color:#333;">' + fmtDisp(flightState.startDate) + '</div>';
+      h += '  </div>';
+      h += '  <div style="color:#bbb;font-size:18px;">→</div>';
+      h += '  <div style="flex:1;text-align:center;">';
+      h += '    <div style="font-size:15.5px;color:#999;margin-bottom:2px;">종료</div>';
+      h += '    <div style="font-size:15.5px;font-weight:600;color:#333;">' + fmtDisp(flightState.endDate) + '</div>';
+      h += '  </div>';
+      if (nightsStr) h += '  <span style="background:#f0edff;color:#667eea;font-size:15.5px;font-weight:700;padding:3px 8px;border-radius:20px;white-space:nowrap;">' + nightsStr + '</span>';
+      h += '</div>';
+      h += '<div style="position:relative;">' + calHtml + '</div>';
+      h += '</div>';
+
+      // 네이버 항공 버튼
+      h += '<button onclick="trackFlightSearch(flightState.airport);window.open(\'' + naverUrl + '\',\'_blank\')" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;background:#03c75a;color:white;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(3,199,90,0.4);margin-bottom:10px;">';
+      h += '<img src="https://www.naver.com/favicon.ico" style="width:20px;height:20px;border-radius:4px;">네이버 항공에서 검색하기</button>';
+      h += '<div style="text-align:center;font-size:13px;color:#999;">실제 가격은 네이버 항공에서 확인해주세요</div>';
+      h += '</div>';
+
+      panel.innerHTML = h;
+      if (_flightCalOpen) renderFlightCal();
+    }
+
+    function toggleFlightCal() {
+      _flightCalOpen = !_flightCalOpen;
+      _renderFlightHTML();
+    }
+
+    function moveFlightCal(delta) {
+      _flightCalMonth += delta;
+      if (_flightCalMonth > 11) { _flightCalMonth = 0; _flightCalYear++; }
+      if (_flightCalMonth < 0)  { _flightCalMonth = 11; _flightCalYear--; }
+      renderFlightCal();
+    }
+
+    function renderFlightCal() {
+      var label = document.getElementById('flightCalLabel');
+      var grid  = document.getElementById('flightCalGrid');
+      var hint  = document.getElementById('flightCalHint');
+      if (!grid) return;
+      var mNames = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+      if (label) label.textContent = _flightCalYear + '년 ' + mNames[_flightCalMonth];
+      grid.innerHTML = '';
+      var firstDay = new Date(_flightCalYear, _flightCalMonth, 1).getDay();
+      var daysInMonth = new Date(_flightCalYear, _flightCalMonth+1, 0).getDate();
+      var today = new Date().toISOString().split('T')[0];
+      for (var i=0;i<firstDay;i++) grid.appendChild(document.createElement('div'));
+      for (var d=1;d<=daysInMonth;d++) {
+        var ds = _flightCalYear + '-' + String(_flightCalMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+        var cell = document.createElement('div');
+        cell.textContent = d;
+        cell.style.cssText = 'text-align:center;padding:7px 2px;border-radius:8px;cursor:pointer;font-size:15.5px;transition:all 0.15s;';
+        var isPast  = ds < today;
+        var isStart = ds === _flightRangeStart;
+        var isEnd   = ds === _flightRangeEnd;
+        var inRange = _flightRangeStart && _flightRangeEnd && ds > _flightRangeStart && ds < _flightRangeEnd;
+        if (isPast) {
+          cell.style.color='#ccc'; cell.style.cursor='default';
+        } else if (isStart || isEnd) {
+          cell.style.background='linear-gradient(135deg,#667eea,#764ba2)';
+          cell.style.color='#fff'; cell.style.fontWeight='700';
+          cell.style.borderRadius = isStart ? '8px 0 0 8px' : '0 8px 8px 0';
+          if (isStart && isEnd) cell.style.borderRadius='8px';
+        } else if (inRange) {
+          cell.style.background='#f0edff'; cell.style.color='#667eea'; cell.style.borderRadius='0';
+        } else {
+          (function(c){ c.onmouseover=function(){c.style.background='#f5f5f5';}; c.onmouseout=function(){c.style.background='';}; })(cell);
+        }
+        if (!isPast) { (function(s){ cell.onclick=function(){ onFlightDateClick(s); }; })(ds); }
+        grid.appendChild(cell);
+      }
+      if (hint) {
+        if (!_flightRangeStart) hint.textContent='출발 날짜를 선택하세요';
+        else if (!_flightRangeEnd) hint.textContent='귀국 날짜를 선택하세요';
+        else hint.textContent='';
+      }
+    }
+
+    function onFlightDateClick(ds) {
+      if (!_flightRangeStart || (_flightRangeStart && _flightRangeEnd)) {
+        _flightRangeStart = ds; _flightRangeEnd = null;
+        renderFlightCal(); return;
+      }
+      if (ds < _flightRangeStart) { _flightRangeEnd = _flightRangeStart; _flightRangeStart = ds; }
+      else { _flightRangeEnd = ds; }
+      flightState.startDate = _flightRangeStart;
+      flightState.endDate   = _flightRangeEnd;
+      _flightCalOpen = false;
+      setTimeout(function(){ _renderFlightHTML(); }, 150);
+    }
+
+    function selectFlightAirport(code, name) {
+      flightState.airport = code; flightState.airportName = name; _renderFlightHTML();
+    }
+
+
     // 🤖 완성된 AI 일정 - 대분류 카테고리 버튼 슬라이딩
     // ============================================
 
@@ -13979,6 +14613,18 @@ function showToast(message, type) {
           if (bookingMatch) hotelBookingUrl = bookingMatch[1];
         }
 
+        // 🎒 투어 가격확인 URL: allSpots에서 category '현지투어' 확인 후 URL 추출
+        let tourBookingUrl = '';
+        {
+          const _tCleanName = (fullSpot.name || spot.name || '').replace(/\[.*?\]/g, '').trim();
+          const _tSpot = allSpots.find(s => (s.name || '').replace(/\[.*?\]/g, '').trim() === _tCleanName);
+          const _tMidCat = _tSpot ? ((_tSpot.category || '').split(' > ')[1] || '').replace(/\[|\]/g, '').trim() : '';
+          if (_tMidCat === '현지투어') {
+            const _tUrlMatch = (_tSpot.description || '').match(/https?:\/\/(?!.*youtube\.com|.*youtu\.be)[^\s\n]+/);
+            if (_tUrlMatch) tourBookingUrl = _tUrlMatch[0].replace(/[-.,;:!?]+$/, '');
+          }
+        }
+
         // 설명 미리보기
         let descText = (fullSpot.description || '')
           .replace(/https?:\/\/[^\s]+/g, '')
@@ -14007,11 +14653,26 @@ function showToast(message, type) {
         // 전체 설명 (🔒 XSS 방지)
         const fullDesc = formatDescriptionSafe(fullSpot.description, null);
 
+        // 🏨 호텔 부대시설 태그 (이름 오른쪽 인라인)
+        let _aiFacilitiesHtml = '';
+        if (isHotel && spot.Facilities) {
+          const _aiFIcons = {'수영장':'🏊','헬스장':'💪','스파':'🧖','스파/마사지':'🧖','스파·마사지':'🧖','공항셔틀':'🚌','공항 셔틀':'🚌','루프탑바':'🍸','루프탑 바':'🍸','레스토랑':'🍽️','바':'🍹','주차장':'🅿️','피트니스':'🏋️','조식':'🍳','비즈니스센터':'💼'};
+          const _aiFColors = {'수영장':{bg:'#e3f2fd',color:'#0277bd',border:'#90caf9'},'헬스장':{bg:'#fce4ec',color:'#c62828',border:'#f48fb1'},'스파':{bg:'#f3e5f5',color:'#6a1b9a',border:'#ce93d8'},'스파/마사지':{bg:'#f3e5f5',color:'#6a1b9a',border:'#ce93d8'},'스파·마사지':{bg:'#f3e5f5',color:'#6a1b9a',border:'#ce93d8'},'공항셔틀':{bg:'#e8f5e9',color:'#2e7d32',border:'#a5d6a7'},'공항 셔틀':{bg:'#e8f5e9',color:'#2e7d32',border:'#a5d6a7'},'루프탑바':{bg:'#fff3e0',color:'#e65100',border:'#ffcc80'},'루프탑 바':{bg:'#fff3e0',color:'#e65100',border:'#ffcc80'},'레스토랑':{bg:'#fff8e1',color:'#f57f17',border:'#ffe082'},'바':{bg:'#fbe9e7',color:'#bf360c',border:'#ffab91'},'주차장':{bg:'#eceff1',color:'#37474f',border:'#b0bec5'},'피트니스':{bg:'#fce4ec',color:'#ad1457',border:'#f48fb1'},'조식':{bg:'#fffde7',color:'#f9a825',border:'#fff176'},'비즈니스센터':{bg:'#e8eaf6',color:'#283593',border:'#9fa8da'}};
+          const _aiFDefault = {bg:'#f0f4ff',color:'#3d5afe',border:'#c5cae9'};
+          const _aiFItems = spot.Facilities.split(/[,，/·•]+/).map(function(f){return f.trim();}).filter(Boolean);
+          if (_aiFItems.length > 0) {
+            _aiFacilitiesHtml = '<div class="hotel-facility-tags" style="margin-top:4px;">' +
+              _aiFItems.map(function(f){const c=_aiFColors[f]||_aiFDefault;return '<span class="hotel-facility-tag" style="font-size:12px;padding:2px 7px;background:'+c.bg+';color:'+c.color+';border-color:'+c.border+';">'+ (_aiFIcons[f]||'✨')+' '+f+'</span>';}).join('') +
+            '</div>';
+          }
+        }
+
         item.innerHTML =
           '<div class="spot-header">' +
             thumbnailHtml +
             '<div class="spot-info">' +
               '<div class="spot-name">' + aiBadge + escapeHtml(spot.name || '이름 없음') + '</div>' +
+              _aiFacilitiesHtml +
               previewHtml +
             '</div>' +
             '<div class="spot-right-col">' +
@@ -14020,6 +14681,7 @@ function showToast(message, type) {
                 '<div onclick="openYoutubeChannel()" style="display:flex;flex-direction:row;align-items:center;justify-content:center;background:linear-gradient(135deg,#6a4c9c,#9b59b6);color:white;border-radius:8px;padding:5px 10px;cursor:pointer;gap:5px;width:100%;"><span style="font-size:13px;">▶️</span><span style="font-size:10px;font-weight:700;">구독</span></div>' +
               '</div>' +
               (isHotelSpot ? (hotelBookingUrl ? '<button class="hotel-price-check-btn" data-url="' + escapeHtml(hotelBookingUrl) + '">💰 호텔가격확인</button>' : '<button class="hotel-booking-disabled" disabled style="font-size:12px;padding:6px 8px;">🚫 일시적 예약 불가</button>') : '') +
+              (tourBookingUrl ? '<button class="tour-price-check-btn" data-url="' + escapeHtml(tourBookingUrl) + '">🎒 투어가격확인</button>' : '') +
             '</div>' +
           '</div>' +
           '<div class="spot-content">' +
@@ -14054,7 +14716,7 @@ function showToast(message, type) {
           const hotelBookingBtn = item.querySelector('.hotel-booking-btn');
 
           if (mymapBtn) {
-            mymapBtn.onclick = (e) => { e.stopPropagation(); openSaveSpotModal(fullSpot); };
+            mymapBtn.onclick = (e) => { e.stopPropagation(); trackMyMapSave(fullSpot.name || spot.name); openSaveSpotModal(fullSpot); };
             if (currentUser) {
               google.script.run
                 .withSuccessHandler(function(result) {
@@ -14083,12 +14745,12 @@ function showToast(message, type) {
           const grabBtn2 = item.querySelector('.grab-btn');
           const ts = fullSpot || spot;
           setupGrabBtn(grabBtn2, ts.lat, ts.lng, ts.name);
-          if (shareBtn) shareBtn.onclick = (e) => { e.stopPropagation(); shareSpot(fullSpot.name || spot.name); };
+          if (shareBtn) shareBtn.onclick = (e) => { e.stopPropagation(); trackSpotShare(fullSpot.name || spot.name); shareSpot(fullSpot.name || spot.name); };
           if (hotelBookingBtn) {
             hotelBookingBtn.onclick = (e) => {
               e.stopPropagation();
               const url = hotelBookingBtn.getAttribute('data-url');
-              if (url) window.open(url, '_blank');
+              if (url) { trackHotelBooking(fullSpot.name || spot.name); window.open(url, '_blank'); }
             };
           }
           const hotelPriceCheckBtn2 = item.querySelector('.hotel-price-check-btn');
@@ -14096,6 +14758,15 @@ function showToast(message, type) {
             hotelPriceCheckBtn2.onclick = (e) => {
               e.stopPropagation();
               const url = hotelPriceCheckBtn2.getAttribute('data-url');
+              if (url) { trackHotelPriceCheck(fullSpot.name || spot.name); window.open(url, '_blank'); }
+            };
+          }
+          // 🎒 투어 가격확인 버튼 (AI 카테고리 카드)
+          const tourPriceCheckBtn2 = item.querySelector('.tour-price-check-btn');
+          if (tourPriceCheckBtn2) {
+            tourPriceCheckBtn2.onclick = (e) => {
+              e.stopPropagation();
+              const url = tourPriceCheckBtn2.getAttribute('data-url');
               if (url) window.open(url, '_blank');
             };
           }
@@ -14184,12 +14855,7 @@ function showToast(message, type) {
             // 👁️ 조회수 증가 + 서버에서 최신 통계 로드
             incrementViewCount(spot.name);
             // GA 스팟 클릭 이벤트
-            if (typeof gtag !== 'undefined') {
-              gtag('event', 'spot_click', {
-                'event_category': currentMainCategory || '기타',
-                'event_label': spot.name
-              });
-            }
+            try { google.script.run.sendGA4Event('user_action', 'spot_click', {spot_name: spot.name, category: currentMainCategory || '기타', city: '하노이'}); } catch(e) {}
             loadSpotReactionsFromServer(spot.name, (spot.category || '').split(' > ')[0].replace(/\[|\]/g,'').trim());
             // 스크롤/패널 상태 저장
             const spotsContainer = document.querySelector('.spots-container');
@@ -14787,6 +15453,8 @@ function showToast(message, type) {
       
       // 🔥 자동 조정 완료 모달 제거 - 바로 일정표 생성
       console.log('✅ 자동 조정 완료, 바로 일정표 생성 시작');
+      // ✅ [버그수정] 재생성 시 부족 모달 재표시 방지 플래그
+      window._skipShortageModal = true;
       generateAISchedule(fullSurveyData);
     }
     
@@ -15044,12 +15712,17 @@ function showToast(message, type) {
             </div></div>`;
         } else if (cat === '관광지') {
           const timeInfo = `🕐 오픈 ${openTime} | 🕘 마감 ${closeTime} | 🚫 휴무 ${closedDay}`;
+          const tourUrl = s.tourBookingUrl || '';
+          const tourBtn = tourUrl
+            ? `<button onclick="event.stopPropagation();window.open('${tourUrl}','_blank')" style="display:block;width:100%;margin-top:10px;padding:11px 0;background:linear-gradient(135deg,#43a047,#66bb6a);color:white;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 3px 10px rgba(67,160,71,0.4);">🎒 투어 예약 바로가기</button>`
+            : '';
           return `<div class="spot-card" ${onclick}>
             <div class="spot-icon">🏛️</div>
             <div class="spot-info">
               <div class="spot-name-row"><span class="spot-name">${name}</span><span class="spot-category" style="background:#e1bee7;color:#4a148c;">관광</span></div>
               ${desc ? `<div class="spot-desc">${desc}</div>` : ''}
               <div class="time-info-line">${timeInfo}</div>
+              ${tourBtn}
             </div></div>`;
         } else if (cat === '마사지') {
           const timeInfo = `🕐 오픈 ${openTime} | 🕘 마감 ${closeTime} | ☕ 브레이크 ${breakTime} | 🚫 휴무 ${closedDay}`;
@@ -15079,10 +15752,18 @@ function showToast(message, type) {
         } else if (cat === '호텔') {
           const bookingUrl = s.hotelBookingUrl || '';
           const bookingBtn = bookingUrl ? `<a href="${bookingUrl}" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;padding:5px 12px;background:#667eea;color:#fff;border-radius:6px;font-size:13px;text-decoration:none;">🏨 예약 페이지</a>` : `<span style="display:inline-block;margin-top:6px;padding:5px 12px;background:#e0e0e0;color:#999;border-radius:6px;font-size:13px;cursor:not-allowed;opacity:0.6;">🚫 일시적 예약 불가</span>`;
+          const _sfIcons = {'수영장':'🏊','헬스장':'💪','스파':'🧖','스파/마사지':'🧖','스파·마사지':'🧖','공항셔틀':'🚌','공항 셔틀':'🚌','루프탑바':'🍸','루프탑 바':'🍸','레스토랑':'🍽️','바':'🍹','주차장':'🅿️','피트니스':'🏋️','조식':'🍳','비즈니스센터':'💼'};
+          const _sfColors = {'수영장':{bg:'#e3f2fd',color:'#0277bd',border:'#90caf9'},'헬스장':{bg:'#fce4ec',color:'#c62828',border:'#f48fb1'},'스파':{bg:'#f3e5f5',color:'#6a1b9a',border:'#ce93d8'},'스파/마사지':{bg:'#f3e5f5',color:'#6a1b9a',border:'#ce93d8'},'스파·마사지':{bg:'#f3e5f5',color:'#6a1b9a',border:'#ce93d8'},'공항셔틀':{bg:'#e8f5e9',color:'#2e7d32',border:'#a5d6a7'},'공항 셔틀':{bg:'#e8f5e9',color:'#2e7d32',border:'#a5d6a7'},'루프탑바':{bg:'#fff3e0',color:'#e65100',border:'#ffcc80'},'루프탑 바':{bg:'#fff3e0',color:'#e65100',border:'#ffcc80'},'레스토랑':{bg:'#fff8e1',color:'#f57f17',border:'#ffe082'},'바':{bg:'#fbe9e7',color:'#bf360c',border:'#ffab91'},'주차장':{bg:'#eceff1',color:'#37474f',border:'#b0bec5'},'피트니스':{bg:'#fce4ec',color:'#ad1457',border:'#f48fb1'},'조식':{bg:'#fffde7',color:'#f9a825',border:'#fff176'},'비즈니스센터':{bg:'#e8eaf6',color:'#283593',border:'#9fa8da'}};
+          const _sfDefault = {bg:'#f0f4ff',color:'#3d5afe',border:'#c5cae9'};
+          const _sfTags = s.Facilities ? s.Facilities.split(/[,，\/·•]+/).map(f => f.trim()).filter(Boolean).map(f => { const c = _sfColors[f]||_sfDefault; return `<span class="hotel-facility-tag" style="font-size:12px;padding:2px 7px;background:${c.bg};color:${c.color};border-color:${c.border};">${_sfIcons[f]||'✨'} ${f}</span>`; }).join('') : '';
           return `<div class="spot-card" ${onclick}>
             <div class="spot-icon">🏨</div>
             <div class="spot-info">
-              <div class="spot-name-row"><span class="spot-name">${name}</span><span class="spot-category" style="background:#fce4ec;color:#880e4f;">호텔</span></div>
+              <div class="spot-name-row" style="flex-wrap:wrap;gap:4px;">
+                <span class="spot-name">${name}</span>
+                <span class="spot-category" style="background:#fce4ec;color:#880e4f;">호텔</span>
+                ${_sfTags}
+              </div>
               ${desc ? `<div class="spot-desc">${desc}</div>` : ''}
               ${bookingBtn}
             </div></div>`;
@@ -15181,7 +15862,12 @@ function showToast(message, type) {
             const _btn = _bookingUrl
               ? `<a href="${_bookingUrl}" target="_blank" rel="noopener" style="display:block;width:100%;margin-top:10px;padding:10px 0;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border-radius:10px;font-size:14px;font-weight:800;text-align:center;text-decoration:none;box-shadow:0 3px 10px rgba(102,126,234,0.4);">🏨 호텔 예약하러 가기</a>`
               : `<div style="display:block;width:100%;margin-top:10px;padding:10px 0;background:#e0e0e0;color:#999;border-radius:10px;font-size:14px;font-weight:800;text-align:center;cursor:not-allowed;opacity:0.6;box-sizing:border-box;">🚫 일시적 예약 불가</div>`;
-            hotelHtml += `<div class="spot-card" style="border:${_ts.border};background:${_ts.background};"><div class="spot-info"><div style="margin-bottom:2px;">${_badge}</div><div class="spot-name-row"><span class="spot-name">${h.name || ''}</span></div>${_grHtml}${_btn}</div></div>`;
+            const _rbFIcons = {"수영장":"🏊","헬스장":"💪","스파":"🧖","스파/마사지":"🧖","스파·마사지":"🧖","공항셔틀":"🚌","공항 셔틀":"🚌","루프탑바":"🍸","루프탑 바":"🍸","레스토랑":"🍽️","바":"🍹","주차장":"🅿️","피트니스":"🏋️","조식":"🍳","비즈니스센터":"💼"};
+            const _rbFColors = {"수영장":{bg:"#e3f2fd",color:"#0277bd",border:"#90caf9"},"헬스장":{bg:"#fce4ec",color:"#c62828",border:"#f48fb1"},"스파":{bg:"#f3e5f5",color:"#6a1b9a",border:"#ce93d8"},"스파/마사지":{bg:"#f3e5f5",color:"#6a1b9a",border:"#ce93d8"},"스파·마사지":{bg:"#f3e5f5",color:"#6a1b9a",border:"#ce93d8"},"공항셔틀":{bg:"#e8f5e9",color:"#2e7d32",border:"#a5d6a7"},"공항 셔틀":{bg:"#e8f5e9",color:"#2e7d32",border:"#a5d6a7"},"루프탑바":{bg:"#fff3e0",color:"#e65100",border:"#ffcc80"},"루프탑 바":{bg:"#fff3e0",color:"#e65100",border:"#ffcc80"},"레스토랑":{bg:"#fff8e1",color:"#f57f17",border:"#ffe082"},"바":{bg:"#fbe9e7",color:"#bf360c",border:"#ffab91"},"주차장":{bg:"#eceff1",color:"#37474f",border:"#b0bec5"},"피트니스":{bg:"#fce4ec",color:"#ad1457",border:"#f48fb1"},"조식":{bg:"#fffde7",color:"#f9a825",border:"#fff176"},"비즈니스센터":{bg:"#e8eaf6",color:"#283593",border:"#9fa8da"}};
+            const _rbFDefault = {bg:"#f0f4ff",color:"#3d5afe",border:"#c5cae9"};
+            const _rbFTags = h.Facilities ? h.Facilities.split(/[,，\/·•]+/).map(f=>f.trim()).filter(Boolean).map(f=>{const c=_rbFColors[f]||_rbFDefault;return "<span class=\"hotel-facility-tag\" style=\"font-size:12px;padding:2px 7px;background:"+c.bg+";color:"+c.color+";border-color:"+c.border+";\">"+(_rbFIcons[f]||"✨")+" "+f+"</span>";}).join("") : "";
+            const _rbFHtml = _rbFTags ? "<div class=\"hotel-facility-tags\" style=\"margin-bottom:6px;\">" + _rbFTags + "</div>" : "";
+            hotelHtml += "<div class=\"spot-card\" style=\"border:"+_ts.border+";background:"+_ts.background+";\"><div class=\"spot-info\"><div style=\"margin-bottom:2px;\">" + _badge + "</div><div class=\"spot-name-row\"><span class=\"spot-name\">"+(h.name||"")+"</span></div>"+_grHtml+_rbFHtml+_btn+"</div></div>";
           });
           hotelHtml += '</div>';
           hotelPanel.innerHTML = hotelHtml;
@@ -15394,6 +16080,7 @@ function showToast(message, type) {
             aiDay: s.d, aiTimeSlot: s.t, order: s.o
           }));
           data.startDate = data.sd || '';
+          data.endDate   = data.ed || '';
         }
 
         const spots = data.spots || data;
@@ -15409,7 +16096,8 @@ function showToast(message, type) {
         localStorage.setItem('latestAIScheduleData', JSON.stringify(aiRecommendSpots));
         if (data.scheduleHTML) localStorage.setItem('latestAIScheduleHTML', data.scheduleHTML);
         if (data.hotelHTML)   localStorage.setItem('latestAIHotelHTML', data.hotelHTML);
-        if (data.startDate)   localStorage.setItem('aiScheduleStartDate', data.startDate);
+        if (data.startDate) localStorage.setItem('aiScheduleStartDate', data.startDate);
+        if (data.endDate)   localStorage.setItem('aiScheduleEndDate',   data.endDate);
 
         addAIScheduleCategoryBtn();
 
@@ -15535,6 +16223,298 @@ function showToast(message, type) {
         alert('복사 완료! ('+logs.length+'줄)');
       }
     };
+  })();
+  </script>
+
+  <!-- ===== 🔍 스팟 검색 기능 ===== -->
+  <script>
+  (function() {
+
+    var CATEGORY_ICON = {
+      '맛집': '🍽️', '까페': '☕', '카페': '☕', '관광지': '🏛️',
+      '호텔': '🏨', '쇼핑': '🛍️', '액티비티': '🎯', '바': '🍸',
+      '마사지': '💆'
+    };
+
+    function getCategoryIcon(category) {
+      if (!category) return '📍';
+      for (var key in CATEGORY_ICON) {
+        if (category.indexOf(key) !== -1) return CATEGORY_ICON[key];
+      }
+      return '📍';
+    }
+
+    // 성조/발음기호 제거 (ơ→o, ề→e, Phở→Pho 등)
+    function normalize(str) {
+      return str.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    }
+
+    function highlight(text, query) {
+      if (!query) return text;
+      var normText = normalize(text);
+      var normQuery = normalize(query);
+      var idx = normText.indexOf(normQuery);
+      if (idx === -1) return text;
+      return text.slice(0, idx) +
+        '<em>' + text.slice(idx, idx + query.length) + '</em>' +
+        text.slice(idx + query.length);
+    }
+
+    window.clearSearch = function() {
+      var input = document.getElementById('searchInput');
+      input.value = '';
+      input.focus();
+      document.getElementById('searchClearBtn').style.display = 'none';
+      document.getElementById('searchResults').classList.remove('active');
+      document.getElementById('searchResults').innerHTML = '';
+    };
+
+    function renderResults(query) {
+      var container = document.getElementById('searchResults');
+      var spots = (typeof allSpots !== 'undefined') ? allSpots : [];
+
+      // 검색어 없으면 빈 상태
+      if (!query.trim()) {
+        container.innerHTML = '<div class="search-result-empty">검색어를 입력해주세요 🔍</div>';
+        return;
+      }
+
+      var q = query.trim().toLowerCase();
+      var matched = spots.filter(function(s) {
+        return s.name && normalize(s.name).indexOf(normalize(q)) !== -1;
+      });
+
+      // 중복 제거 (name 기준)
+      var seen = {};
+      matched = matched.filter(function(s) {
+        if (seen[s.name]) return false;
+        seen[s.name] = true;
+        return true;
+      });
+
+      if (matched.length === 0) {
+        container.innerHTML = '<div class="search-result-empty">검색 결과가 없어요 😢</div>';
+        return;
+      }
+
+      container.innerHTML = matched.slice(0, 30).map(function(s) {
+        var rawCat = s.category || s.mainCategory || '';
+        var mainCat = rawCat.split('>')[0].replace(/[\[\]]/g, '').trim();
+        var icon = getCategoryIcon(mainCat);
+        var cat = mainCat;
+        return '<div class="search-result-item" onclick="selectSearchSpot(\'' +
+          s.name.replace(/'/g, "\\'") + '\')">' +
+          '<div class="search-result-icon">' + icon + '</div>' +
+          '<div class="search-result-info">' +
+            '<div class="search-result-name">' + highlight(s.name, query.trim()) + '</div>' +
+            '<div class="search-result-category">' + cat + '</div>' +
+          '</div>' +
+          '</div>';
+      }).join('');
+    }
+
+    window.selectSearchSpot = function(spotName) {
+      // 검색창 초기화
+      document.getElementById('searchInput').value = '';
+      document.getElementById('searchClearBtn').style.display = 'none';
+      document.getElementById('searchResults').classList.remove('active');
+      document.getElementById('searchResults').innerHTML = '';
+
+      // 해당 카테고리로 전환 후 스팟 클릭 시뮬레이션
+      var spots = (typeof allSpots !== 'undefined') ? allSpots : [];
+      var target = spots.find(function(s) { return s.name === spotName; });
+      if (!target) { showCuteToast('❌ 스팟을 찾을 수 없어요.'); return; }
+
+      // 카테고리 전환 - "맛집 > [면요리] > [쌀국수]" 에서 대분류만 추출
+      var cat = target.category || target.mainCategory || '';
+      var mainCat = cat.split('>')[0].replace(/[\[\]]/g, '').trim();
+      if (mainCat && typeof selectMainCategory === 'function') {
+        selectMainCategory(mainCat);
+      }
+
+      // 짧은 딜레이 후 DOM에서 스팟 찾아서 클릭
+      setTimeout(function() {
+        var items = document.querySelectorAll('.spot-item');
+        var found = false;
+        items.forEach(function(item) {
+          var nameElem = item.querySelector('.spot-name');
+          if (nameElem && nameElem.textContent.trim() === spotName) {
+            found = true;
+            // 지도 이동
+            if (typeof map !== 'undefined' && target.lat && target.lng) {
+              map.panTo({ lat: target.lat, lng: target.lng });
+              map.setZoom(17);
+            }
+            // 스팟 카드 클릭 시뮬레이션
+            var header = item.querySelector('.spot-header');
+            if (header && header.onclick) {
+              header.onclick({ stopPropagation: function() {} });
+            } else {
+              item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+          }
+        });
+        if (!found) showCuteToast('⚠️ 현재 카테고리에서 스팟을 찾을 수 없어요.');
+      }, 400);
+    };
+
+    // 입력 이벤트
+    document.addEventListener('DOMContentLoaded', function() {
+      var input = document.getElementById('searchInput');
+      var results = document.getElementById('searchResults');
+      var clearBtn = document.getElementById('searchClearBtn');
+      if (!input) return;
+
+      input.addEventListener('input', function() {
+        var q = this.value;
+        clearBtn.style.display = q ? 'block' : 'none';
+        if (!q.trim()) {
+          results.classList.remove('active');
+          results.innerHTML = '';
+          return;
+        }
+        renderResults(q);
+        results.classList.add('active');
+      });
+
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          window.clearSearch();
+          input.blur();
+        }
+      });
+
+      // 검색창 외부 클릭시 결과 닫기
+      document.addEventListener('click', function(e) {
+        var wrapper = document.getElementById('searchWrapper');
+        if (wrapper && !wrapper.contains(e.target)) {
+          results.classList.remove('active');
+        }
+      });
+    });
+
+  })();
+  </script>
+
+  <!-- ===== 국가별 메신저 인앱 유도 ===== -->
+  <script>
+  (function() {
+
+    var ua = navigator.userAgent;
+
+    // ① 모바일이 아니면 스킵 (PC는 표시 안 함)
+    if (!/Android|iPhone|iPad|iPod|Mobile/i.test(ua)) return;
+
+    // ② 이미 인앱이면 스킵
+    if (/KAKAOTALK|Line\/|MicroMessenger|ZALO|WhatsApp|Telegram/i.test(ua)) return;
+
+    // ② 세션당 1회만 표시
+    if (sessionStorage.getItem('_mShown')) return;
+    sessionStorage.setItem('_mShown', '1');
+
+    var MESSENGERS = {
+      KR:      { title: '카카오톡으로 열어주세요!',  desc: '링크를 복사한 뒤 카카오톡을 열어\n채팅창에 붙여넣기 해주세요 😊',   step: '① 링크 복사 → ② 카카오톡 열기 → ③ 붙여넣기 후 전송',  btn2: '🤍 2단계: 카카오톡 열기',  color: '#FEE500', textColor: '#391B1B', scheme: 'kakaotalk://' },
+      VN:      { title: 'Zalo로 열어주세요!',        desc: '링크를 복사한 뒤 Zalo를 열어\n채팅창에 붙여넣기 해주세요 😊',     step: '① 링크 복사 → ② Zalo 열기 → ③ 붙여넣기 후 전송',      btn2: '💙 2단계: Zalo 열기',      color: '#0068FF', textColor: '#ffffff', scheme: 'zalo://' },
+      TH:      { title: 'Line으로 열어주세요!',       desc: '링크를 복사한 뒤 Line을 열어\n채팅창에 붙여넣기 해주세요 😊',     step: '① 링크 복사 → ② Line 열기 → ③ 붙여넣기 후 전송',      btn2: '💚 2단계: Line 열기',       color: '#06C755', textColor: '#ffffff', scheme: 'line://' },
+      JP:      { title: 'Line으로 열어주세요!',       desc: '링크를 복사한 뒤 Line을 열어\n채팅창에 붙여넣기 해주세요 😊',     step: '① 링크 복사 → ② Line 열기 → ③ 붙여넣기 후 전송',      btn2: '💚 2단계: Line 열기',       color: '#06C755', textColor: '#ffffff', scheme: 'line://' },
+      CN:      { title: 'WeChat으로 열어주세요!',     desc: '링크를 복사한 뒤 微信을 열어\n채팅창에 붙여넣기 해주세요 😊',     step: '① 링크 복사 → ② WeChat 열기 → ③ 붙여넣기 후 전송',    btn2: '💚 2단계: WeChat 열기',     color: '#07C160', textColor: '#ffffff', scheme: 'weixin://' },
+      DEFAULT: { title: 'WhatsApp으로 열어주세요!',   desc: '링크를 복사한 뒤 WhatsApp을 열어\n채팅창에 붙여넣기 해주세요 😊', step: '① 링크 복사 → ② WhatsApp 열기 → ③ 붙여넣기 후 전송',  btn2: '💬 2단계: WhatsApp 열기',  color: '#25D366', textColor: '#ffffff', scheme: 'whatsapp://' },
+    };
+
+    // ③ 브라우저 언어 우선 감지 (한국인이 베트남 가도 카카오톡)
+    var LANG_MAP = { ko: 'KR', vi: 'VN', th: 'TH', ja: 'JP', zh: 'CN' };
+    var lang = (navigator.language || '').substring(0, 2).toLowerCase();
+    var byLang = LANG_MAP[lang];
+
+    if (byLang) {
+      showPopup(MESSENGERS[byLang]);
+    } else {
+      // 언어로 못 잡으면 → IP로 국가 감지 (영어권/유럽 등)
+      fetch('https://ipapi.co/json/')
+        .then(function(r) { return r.json(); })
+        .then(function(d) { showPopup(MESSENGERS[d.country_code] || MESSENGERS['DEFAULT']); })
+        .catch(function() { showPopup(MESSENGERS['DEFAULT']); });
+    }
+
+    var copied = false;
+
+    function showPopup(m) {
+      var url = window.location.href;
+
+      var overlay = document.createElement('div');
+      overlay.id = '_mOverlay';
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99998;display:flex;align-items:center;justify-content:center;padding:20px;';
+      overlay.onclick = function(e) { if (e.target === overlay) closePopup(); };
+
+      overlay.innerHTML =
+        '<div style="background:#1e2130;border-radius:24px;padding:36px 28px;max-width:340px;width:100%;text-align:center;position:relative;">' +
+
+          '<div style="font-size:52px;margin-bottom:16px;">💬</div>' +
+          '<div style="font-size:22px;font-weight:700;color:#ffffff;margin-bottom:12px;line-height:1.4;">' + m.title + '</div>' +
+          '<div style="font-size:14px;color:#aaaaaa;margin-bottom:10px;line-height:1.7;white-space:pre-line;">' + m.desc + '</div>' +
+          '<div style="font-size:12px;color:#777;margin-bottom:24px;line-height:1.6;">' + m.step + '</div>' +
+
+          '<button id="_mCopyBtn" style="width:100%;padding:16px;background:#2c3147;color:#ffffff;border:none;border-radius:14px;font-size:16px;font-weight:600;cursor:pointer;margin-bottom:10px;">📋 1단계: 링크 복사하기</button>' +
+          '<button id="_mOpenBtn" style="width:100%;padding:16px;background:' + m.color + ';color:' + m.textColor + ';border:none;border-radius:14px;font-size:16px;font-weight:600;cursor:pointer;margin-bottom:10px;">' + m.btn2 + '</button>' +
+          '<button id="_mCloseBtn" style="width:100%;padding:12px;background:transparent;color:#666;border:none;font-size:15px;cursor:pointer;">닫기</button>' +
+
+          '<div id="_mAlert" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.7);border-radius:24px;align-items:center;justify-content:center;">' +
+            '<div style="background:#1e2130;border-radius:20px;padding:28px 24px;max-width:260px;width:90%;text-align:center;">' +
+              '<div style="font-size:40px;margin-bottom:12px;">☝️</div>' +
+              '<div style="font-size:16px;font-weight:700;color:#ffffff;margin-bottom:8px;line-height:1.5;">먼저 링크를 복사해주세요!</div>' +
+              '<div style="font-size:13px;color:#aaa;margin-bottom:20px;line-height:1.6;">1단계에서 링크를 복사한 뒤<br>메신저 앱을 열어주세요 😊</div>' +
+              '<button id="_mAlertBtn" style="width:100%;padding:12px;background:' + m.color + ';color:' + m.textColor + ';border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;">✅ 알겠어요! 복사할게요</button>' +
+            '</div>' +
+          '</div>' +
+
+        '</div>';
+
+      document.body.appendChild(overlay);
+
+      // 1단계: 링크 복사
+      document.getElementById('_mCopyBtn').onclick = function() {
+        var btn = this;
+        copied = true;
+        var done = function() {
+          btn.textContent = '✅ 복사 완료!';
+          btn.style.color = '#4cde80';
+          btn.style.background = '#1a2a1a';
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(done).catch(done);
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = url; ta.style.cssText = 'position:fixed;top:-999px;opacity:0;';
+          document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+          done();
+        }
+      };
+
+      // 2단계: 앱 열기 (1단계 안 했으면 알림)
+      document.getElementById('_mOpenBtn').onclick = function() {
+        if (!copied) {
+          var alertBox = document.getElementById('_mAlert');
+          alertBox.style.display = 'flex';
+          document.getElementById('_mAlertBtn').onclick = function() {
+            alertBox.style.display = 'none';
+            var copyBtn = document.getElementById('_mCopyBtn');
+            copyBtn.style.outline = '2px solid ' + m.color;
+            setTimeout(function() { copyBtn.style.outline = 'none'; }, 1500);
+          };
+        } else {
+          window.location.href = m.scheme;
+        }
+      };
+
+      // 닫기
+      document.getElementById('_mCloseBtn').onclick = closePopup;
+    }
+
+    function closePopup() {
+      var el = document.getElementById('_mOverlay');
+      if (el) document.body.removeChild(el);
+    }
+
   })();
   </script>
 </body>
