@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RHTZ1HC1X6"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -13,7 +12,6 @@
     gtag('config', 'G-RHTZ1HC1X6');
   </script>
 
-  <!-- OG 태그 (카카오톡 미리보기) -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://travelinyourpocket.net">
   <meta property="og:title" content="Travel In your Pocket">
@@ -77,7 +75,6 @@
     .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; margin: 0 12px; }
     .footer-links a:hover { color: rgba(255,255,255,0.7); }
 
-    /* ===== 로딩 오버레이 ===== */
     #loadingOverlay {
       display: none;
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -88,7 +85,6 @@
       gap: 24px;
     }
     #loadingOverlay.show { display: flex; }
-
     .loading-spinner {
       width: 52px; height: 52px;
       border: 3px solid rgba(66,133,244,0.2);
@@ -97,55 +93,97 @@
       animation: spin 0.9s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    .loading-text {
-      font-size: 17px; font-weight: 600;
-      color: rgba(255,255,255,0.85);
-      letter-spacing: 0.3px;
-    }
-    .loading-sub {
-      font-size: 13px;
-      color: rgba(255,255,255,0.35);
-      margin-top: -16px;
-    }
+    .loading-text { font-size: 17px; font-weight: 600; color: rgba(255,255,255,0.85); letter-spacing: 0.3px; }
+    .loading-sub { font-size: 13px; color: rgba(255,255,255,0.35); margin-top: -16px; }
   </style>
 
   <script>
     (function() {
       var params = new URLSearchParams(window.location.search);
-      var hasSpot = params.has('spot');
-      var hasShare = params.has('shareCategory');
-      if (hasSpot || hasShare) {
+      if (params.has('spot') || params.has('shareCategory')) {
         window.location.replace('/app.html?' + params.toString());
         return;
       }
+    })();
+  </script>
+</head>
+<body>
 
-      var city = params.get('city');
-      var ua = navigator.userAgent;
-    function showLoading(cityName) {
-      var emoji = CITY_EMOJI[cityName] || '🗺️';
-      document.getElementById('loadingText').textContent = emoji + ' ' + cityName + ' 지도 불러오는 중...';
-      document.getElementById('loadingOverlay').classList.add('show');
-    }
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">✈️ AI Travel Guide</div>
+      <h1>Travel In<br>your <em>Pocket</em></h1>
+      <p class="hero-desc">
+        여행지의 맛집, 카페, 관광지, 숙소를<br>
+        AI와 함께 스마트하게 탐색하는 여행 지도 앱
+      </p>
+      <div class="cities">
+        <button class="city-tag" onclick="openCity('하노이')">🇻🇳 하노이</button>
+        <button class="city-tag coming-soon" disabled>🇻🇳 다낭 <small>(서비스 준비중)</small></button>
+        <button class="city-tag coming-soon" disabled>🇹🇭 방콕 <small>(서비스 준비중)</small></button>
+        <span class="city-tag soon">+ 더 많은 도시 준비 중</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">여행을 더 스마트하게</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <div class="feature-title">AI 맞춤 일정</div>
+        <p class="feature-desc">취향과 일정에 맞는 여행 코스를 AI가 자동으로 구성해드립니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🗺️</div>
+        <div class="feature-title">나만의 지도</div>
+        <p class="feature-desc">마음에 드는 스팟을 저장하고 나만의 여행 지도를 만들어보세요.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⭐</div>
+        <div class="feature-title">현지인 추천</div>
+        <p class="feature-desc">관광객이 모르는 현지인만 아는 숨겨진 맛집과 명소를 발견하세요.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Travel In your Pocket. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="/privacy.html">개인정보처리방침</a>
+      <a href="/terms.html">서비스 약관</a>
+    </div>
+  </footer>
+
+  <div id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text" id="loadingText">🇻🇳 하노이 지도 불러오는 중...</div>
+    <div class="loading-sub">잠시만 기다려주세요</div>
+  </div>
+
+  <script>
+    var CITY_URLS = {
+      '하노이': 'https://travel-in-your-pocket-57ff4.web.app'
+    };
+    var CITY_EMOJI = { '하노이': '🇻🇳' };
+
     function openCity(cityName) {
-      vibrate();
-      currentCity = cityName;
+      if (navigator.vibrate) navigator.vibrate(60);
       gtag('event', 'city_click', { 'city_name': cityName });
 
-      if (GAS_URLS[cityName]) {
-        showLoading(cityName);
-        window.location.href = GAS_URLS[cityName];
+      if (CITY_URLS[cityName]) {
+        var emoji = CITY_EMOJI[cityName] || '🗺️';
+        document.getElementById('loadingText').textContent = emoji + ' ' + cityName + ' 지도 불러오는 중...';
+        document.getElementById('loadingOverlay').classList.add('show');
+        window.location.href = CITY_URLS[cityName];
       } else {
         alert('준비 중인 도시예요! 곧 오픈됩니다 😊');
       }
-    }    }      showLoading(currentCity);
-      closeModal();
-      window.location.href = currentScheme;
     }
+
     window.addEventListener('pageshow', function(e) {
-      if (e.persisted) {
-        document.getElementById('loadingOverlay').classList.remove('show');
-      }
+      if (e.persisted) document.getElementById('loadingOverlay').classList.remove('show');
     });
   </script>
 </body>
