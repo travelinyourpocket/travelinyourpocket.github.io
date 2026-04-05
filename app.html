@@ -3504,7 +3504,35 @@
     // ============================================
     const SERVER_SHARED_SPOT_DATA = null;
     const SERVER_SHARED_CATEGORY_DATA = null;
-    
+
+    // 🔥 SP 단축코드 감지 시 즉시 로딩 토스트 표시 (지도/데이터 로드 전)
+    (function() {
+      try {
+        const _p = new URLSearchParams(window.location.search);
+        const _s = _p.get('s');
+        if (_s && _s.toUpperCase().startsWith('SP')) {
+          // DOM 준비되자마자 토스트 표시
+          function _showEarlyToast() {
+            if (typeof showCuteToast === 'function') {
+              showCuteToast('📍 공유된 스팟을 불러오는 중입니다...', true);
+            } else {
+              // showCuteToast 아직 안 로드됐으면 직접 DOM 생성
+              var t = document.createElement('div');
+              t.id = '_earlyLoadingToast';
+              t.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(1);background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:20px 30px;border-radius:20px;font-size:20px;font-weight:600;box-shadow:0 8px 32px rgba(102,126,234,0.4);z-index:99999;display:flex;align-items:center;gap:12px;';
+              t.innerHTML = '<div style="width:22px;height:22px;border:3px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.75s linear infinite;flex-shrink:0;"></div><span>📍 공유된 스팟을 불러오는 중입니다...</span>';
+              document.body && document.body.appendChild(t);
+            }
+          }
+          if (document.body) {
+            _showEarlyToast();
+          } else {
+            document.addEventListener('DOMContentLoaded', _showEarlyToast);
+          }
+        }
+      } catch(e) {}
+    })();
+
     // ============================================
     // 🔒 프로덕션 모드: 불필요한 로그 억제
     // ============================================
@@ -4092,6 +4120,10 @@
     // persistent=true : 명시적으로 hideLoadingToast() 호출 전까지 유지 (스피너 표시)
     // persistent=false(기본) : 2초 후 자동 소멸 (기존 동작)
     function showCuteToast(message, persistent) {
+      // 🔥 초기 로딩 토스트(earlyLoadingToast) 있으면 제거
+      const earlyToast = document.getElementById('_earlyLoadingToast');
+      if (earlyToast) earlyToast.remove();
+
       // 기존 토스트 제거
       const existingToast = document.querySelector('.cute-toast');
       if (existingToast) {
