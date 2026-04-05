@@ -101,6 +101,8 @@
     (function() {
       var params = new URLSearchParams(window.location.search);
       if (params.has('spot') || params.has('shareCategory') || params.has('s')) {
+        // 🔥 redirect 전에 inline 스피너 즉시 표시 (DOM 로드 불필요)
+        document.write('<div style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,25,35,0.97);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;"><div style="width:52px;height:52px;border:3px solid rgba(66,133,244,0.2);border-top-color:#4285f4;border-radius:50%;animation:_sp 0.9s linear infinite;"></div><div style="font-size:17px;font-weight:600;color:rgba(255,255,255,0.85);">📍 공유된 스팟을 불러오는 중입니다...</div><div style="font-size:13px;color:rgba(255,255,255,0.35);">잠시만 기다려주세요</div><style>@keyframes _sp{to{transform:rotate(360deg);}}</style></div>');
         window.location.replace('/app.html?' + params.toString());
         return;
       }
