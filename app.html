@@ -4233,6 +4233,61 @@
       console.log('🔗 공유 스팟 체크 시작');
       console.log('========================================');
 
+      // 0-0. 🔗 단축코드 (SP○○○○○○) 감지 - 최우선
+      try {
+        const _urlParams = new URLSearchParams(window.location.search);
+        const _spCode = _urlParams.get('s');
+        if (_spCode && _spCode.toUpperCase().startsWith('SP')) {
+          console.log('🔗 단축 스팟 코드 감지:', _spCode);
+          showCuteToast('📍 공유된 스팟을 불러오는 중입니다...', true);
+          const _gasUrl = 'https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec';
+          const _cb = '_loadSpot_' + Date.now();
+          const _sc = document.createElement('script');
+          const _t = setTimeout(() => {
+            delete window[_cb];
+            if (_sc.parentNode) _sc.parentNode.removeChild(_sc);
+            hideLoadingToast();
+            showCuteToast('❌ 스팟 정보를 불러올 수 없습니다');
+          }, 15000);
+          window[_cb] = function(res) {
+            clearTimeout(_t);
+            delete window[_cb];
+            if (_sc.parentNode) _sc.parentNode.removeChild(_sc);
+            if (!res || !res.success) {
+              hideLoadingToast();
+              showCuteToast('❌ ' + (res && res.error || '코드를 찾을 수 없습니다'));
+              return;
+            }
+            try {
+              const spotInfo = JSON.parse(res.data);
+              console.log('✅ 단축코드로 스팟 복원:', spotInfo.name);
+              handleSharedSpot({
+                spot: spotInfo.name,
+                lat: spotInfo.lat,
+                lng: spotInfo.lng,
+                category: spotInfo.category,
+                country: spotInfo.country || '베트남',
+                city: spotInfo.city || '하노이'
+              });
+            } catch(e) {
+              hideLoadingToast();
+              showCuteToast('❌ 스팟 데이터 파싱 실패');
+            }
+          };
+          _sc.onerror = () => {
+            clearTimeout(_t);
+            delete window[_cb];
+            hideLoadingToast();
+            showCuteToast('❌ 불러오기 실패');
+          };
+          _sc.src = _gasUrl + '?action=loadSpotCode&code=' + encodeURIComponent(_spCode.toUpperCase()) + '&callback=' + _cb;
+          document.head.appendChild(_sc);
+          return;
+        }
+      } catch(e) {
+        console.error('❌ 단축코드 체크 에러:', e);
+      }
+
       // 0. 🤖 AI 일정 공유 링크 확인 (최우선!)
       try {
         let urlParams = new URLSearchParams(window.location.search);
