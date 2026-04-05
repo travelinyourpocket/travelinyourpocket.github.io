@@ -1068,6 +1068,21 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-5px); }
     }
+
+    /* 🔄 토스트 로딩 스피너 */
+    .cute-toast-spinner {
+      width: 22px;
+      height: 22px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: toastSpin 0.75s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes toastSpin {
+      to { transform: rotate(360deg); }
+    }
     
     /* 오른쪽: 상세내용 */
     .spot-right {
@@ -4074,32 +4089,54 @@
     }
     
     // 귀여운 토스트 메시지 표시
-    function showCuteToast(message) {
+    // persistent=true : 명시적으로 hideLoadingToast() 호출 전까지 유지 (스피너 표시)
+    // persistent=false(기본) : 2초 후 자동 소멸 (기존 동작)
+    function showCuteToast(message, persistent) {
       // 기존 토스트 제거
       const existingToast = document.querySelector('.cute-toast');
       if (existingToast) {
         existingToast.remove();
       }
-      
+
+      const isLoading = !!persistent;
+
       // 새 토스트 생성
       const toast = document.createElement('div');
-      toast.className = 'cute-toast';
-      toast.innerHTML = '<span class="cute-toast-icon">✨</span><span>' + message + '</span>';
-      
+      toast.className = 'cute-toast' + (isLoading ? ' cute-toast-loading' : '');
+
+      if (isLoading) {
+        // 진행 중: 스피너 + 메시지
+        toast.innerHTML = '<div class="cute-toast-spinner"></div><span>' + message + '</span>';
+      } else {
+        // 완료/에러: 기존 이모지 아이콘
+        toast.innerHTML = '<span class="cute-toast-icon">✨</span><span>' + message + '</span>';
+      }
+
       document.body.appendChild(toast);
-      
+
       // 애니메이션 시작
       setTimeout(() => {
         toast.classList.add('show');
       }, 10);
-      
-      // 2초 후 사라지기
-      setTimeout(() => {
-        toast.classList.remove('show');
+
+      // persistent가 아닐 때만 2초 후 자동 소멸
+      if (!isLoading) {
         setTimeout(() => {
-          toast.remove();
-        }, 300);
-      }, 2000);
+          toast.classList.remove('show');
+          setTimeout(() => {
+            toast.remove();
+          }, 300);
+        }, 2000);
+      }
+    }
+
+    // 진행 중 토스트 제거 (완료/에러 토스트 표시 전에 호출)
+    function hideLoadingToast() {
+      const loadingToast = document.querySelector('.cute-toast.cute-toast-loading');
+      if (loadingToast) {
+        loadingToast.classList.remove('show');
+        setTimeout(() => { loadingToast.remove(); }, 300);
+      }
     }
     
     // 📊 진행 오버레이 표시
@@ -4230,18 +4267,19 @@
           setTimeout(() => {
             const serverUrl = (typeof getServerUrl === 'function') ? getServerUrl() : 'https://script.google.com/macros/s/AKfycbxvF6whoQP5zkxnI3TANG90YGFXCyw5ZcqBNX8P5HOH-mxvbYIx0IyMNhHD07x4uC3-/exec';
             const url = serverUrl + '?action=loadAIScheduleByCode&code=' + encodeURIComponent(aiCode.toUpperCase());
-            showCuteToast('⏳ QR 코드로 일정을 불러오는 중...');
+            showCuteToast('⏳ QR 코드로 일정을 불러오는 중...', true);
             fetch(url)
               .then(r => r.json())
               .then(result => {
-                if (!result.success) { showCuteToast('❌ ' + (result.error || '코드를 찾을 수 없습니다.')); return; }
+                if (!result.success) { hideLoadingToast(); showCuteToast('❌ ' + (result.error || '코드를 찾을 수 없습니다.')); return; }
                 const scheduleData = JSON.parse(result.data);
                 if (window.restoreAIScheduleFromData) {
                   restoreAIScheduleFromData(scheduleData);
+                  hideLoadingToast();
                   showCuteToast('✅ QR 코드로 AI 일정을 불러왔습니다!');
                 }
               })
-              .catch(err => { console.error('QR 불러오기 에러:', err); });
+              .catch(err => { console.error('QR 불러오기 에러:', err); hideLoadingToast(); });
           }, 1500);
           return;
         }
@@ -4339,6 +4377,9 @@
     // 공유 스팟 처리 로직
     function handleSharedSpot(sharedData) {
       console.log('🎯 공유 스팟 처리 시작:', sharedData.spot);
+
+      // 🔄 진입 즉시 로딩 표시
+      showCuteToast('📍 공유된 스팟을 불러오는 중입니다...', true);
       
       // 스팟 찾기
       console.log('🔍 allSpots에서 검색... (총 ' + allSpots.length + '개)');
@@ -4356,6 +4397,7 @@
         allSpots.slice(0, 5).forEach((s, i) => {
           console.log(`  ${i+1}. ${s.name}`);
         });
+        hideLoadingToast();
         showCuteToast('❌ 스팟을 찾을 수 없습니다');
         return;
       }
@@ -4402,6 +4444,7 @@
                       console.log('📍 지도 이동 완료');
                     }
                     
+                    hideLoadingToast();
                     showCuteToast('🎉 공유 스팟으로 이동했습니다!');
                   }
                 }
@@ -4435,7 +4478,7 @@
       // 🔥 나만의 지도 데이터가 로드될 때까지 대기
       if (!myMapDataLoaded) {
         console.log('⏳ 나만의 지도 데이터 로드 대기 중...');
-        showCuteToast('⏳ 데이터 로딩 중...');
+        showCuteToast('⏳ 데이터 로딩 중...', true);
         await loadMyMapData();
         console.log('✅ 나만의 지도 데이터 로드 완료');
       }
@@ -4471,6 +4514,7 @@
       
       if (sharedSpots.length === 0) {
         console.error('❌ 매칭된 스팟이 없음');
+        hideLoadingToast();
         showCuteToast('❌ 공유받은 스팟을 찾을 수 없습니다');
         return;
       }
@@ -4485,7 +4529,7 @@
         }
         console.log('✅ 카테고리 생성 가능:', myMapCategories.length, '/10');
         
-        showCuteToast('📂 카테고리 생성 중...');
+        showCuteToast('📂 카테고리 생성 중...', true);
         
         console.log('📂 카테고리 생성:', categoryName);
         const result = await new Promise((resolve, reject) => {
@@ -4502,8 +4546,10 @@
           
           // 서버에서 온 에러 메시지 표시
           if (result && result.error) {
+            hideLoadingToast();
             showCuteToast('❌ ' + result.error);
           } else {
+            hideLoadingToast();
             showCuteToast('❌ 카테고리 생성에 실패했습니다');
           }
           return;
@@ -4511,6 +4557,7 @@
         
         if (!result.category || !result.category.id) {
           console.error('❌ 카테고리 ID 없음:', result);
+          hideLoadingToast();
           showCuteToast('❌ 카테고리 생성에 실패했습니다');
           return;
         }
@@ -4519,7 +4566,7 @@
         console.log('✅ 카테고리 ID:', newCategory.id);
         
         console.log('📍 스팟 추가 시작...');
-        showCuteToast(`📍 ${sharedSpots.length}개 스팟 추가 중...`);
+        showCuteToast(`📍 ${sharedSpots.length}개 스팟 추가 중...`, true);
         
         // 🔥 스팟 데이터 배열 준비
         const spotsData = [];
@@ -4586,7 +4633,7 @@
         console.log('✅ 데이터 새로고침 완료');
         
         console.log('🎯 나만의 지도 자동 선택...');
-        showCuteToast('🗺️ 나만의 지도로 이동 중...');
+        showCuteToast('🗺️ 나만의 지도로 이동 중...', true);
         selectMainCategory('나만의 지도');
         
         setTimeout(() => {
@@ -4594,8 +4641,10 @@
           selectMyMapMidCategory(newCategory.id);
           
           if (failCount > 0) {
+            hideLoadingToast();
             showCuteToast(`⚠️ '${categoryName}' 카테고리 추가 완료 성공: ${successCount}개, 실패: ${failCount}개`);
           } else {
+            hideLoadingToast();
             showCuteToast(`🎉 '${categoryName}' 카테고리 추가 완료! ${successCount}개 스팟이 저장되었습니다.`);
           }
           
@@ -4614,6 +4663,7 @@
         } catch (overlayError) {
           console.warn('⚠️ 오버레이 숨기기 실패:', overlayError);
         }
+        hideLoadingToast();
         showCuteToast('❌ 카테고리 추가 중 오류가 발생했습니다');
       }
     }
@@ -4632,7 +4682,7 @@
       console.log('========================================');
       
       closeAddToMyMapModal();
-      showCuteToast('⏳ 저장 중...');
+      showCuteToast('⏳ 저장 중...', true);
       
       try {
         // Base64 디코딩
@@ -4672,6 +4722,7 @@
         saveMyMapToLocalStorage();
         
         console.log('✅ 저장 완료!');
+        hideLoadingToast();
         showCuteToast(`🎉 "${newCategory.name}"가 추가되었습니다! (${newSpots.length}개 스팟)`);
         
         // 5. "나만의 지도" 자동 열기
@@ -4697,6 +4748,7 @@
         
       } catch (error) {
         console.error('❌ 저장 실패:', error);
+        hideLoadingToast();
         showCuteToast('❌ 저장에 실패했습니다: ' + error);
       }
     }
@@ -7117,7 +7169,7 @@ function saveMyMapWithCode(categoryId, categoryName) {
   }
 
   closeLongPressModal();
-  showCuteToast('⏳ 저장 중...');
+  showCuteToast('⏳ 저장 중...', true);
 
   const minSpots = categorySpots.map(s => ({
     n: s.name, la: s.lat, lo: s.lng,
@@ -7135,15 +7187,18 @@ function saveMyMapWithCode(categoryId, categoryName) {
   google.script.run
     .withSuccessHandler(function(result) {
       if (!result || !result.success) {
+        hideLoadingToast();
         showCuteToast('❌ 저장 실패: ' + (result && result.error || ''));
         return;
       }
       const code = result.code;
       if (navigator.clipboard) navigator.clipboard.writeText(code).catch(() => {});
+      hideLoadingToast();
       showCodeModal(code);
     })
     .withFailureHandler(function(err) {
       console.error('저장 에러:', err);
+      hideLoadingToast();
       showCuteToast('❌ 서버 저장 중 오류가 발생했습니다.');
     })
     .saveAIScheduleWithCode(payload);
@@ -10656,13 +10711,14 @@ function showToast(message, type) {
         return;
       }
 
-      showCuteToast('⏳ 나만의 지도를 불러오는 중...');
+      showCuteToast('⏳ 나만의 지도를 불러오는 중...', true);
 
       const cbName = '_gasCallback_' + Date.now();
       window[cbName] = function(result) {
         delete window[cbName];
         document.getElementById(cbName) && document.getElementById(cbName).remove();
         if (!result || !result.success) {
+          hideLoadingToast();
           showCuteToast('❌ ' + (result && result.error || '코드를 찾을 수 없습니다.'));
           return;
         }
@@ -10671,6 +10727,7 @@ function showToast(message, type) {
           if (typeof data === 'string') data = JSON.parse(data);
 
           if (!data.spots || !Array.isArray(data.spots)) {
+            hideLoadingToast();
             showCuteToast('❌ 나만의 지도 데이터가 없습니다.');
             return;
           }
@@ -10696,9 +10753,11 @@ function showToast(message, type) {
 
           // 나만의 지도로 이동
           selectMainCategory('나만의 지도');
+          hideLoadingToast();
           showCuteToast('✅ 나만의 지도가 복원되었습니다! (' + data.spots.length + '개 스팟)');
         } catch(e) {
           console.error('파싱 에러:', e);
+          hideLoadingToast();
           showCuteToast('❌ 데이터 파싱 중 오류가 발생했습니다.');
         }
       };
@@ -10710,6 +10769,7 @@ function showToast(message, type) {
       script.onerror = function() {
         delete window[cbName];
         script.remove();
+        hideLoadingToast();
         showCuteToast('❌ 서버 연결 중 오류가 발생했습니다.');
       };
       document.body.appendChild(script);
@@ -10726,7 +10786,7 @@ function showToast(message, type) {
         return;
       }
 
-      showCuteToast('⏳ 일정을 불러오는 중...');
+      showCuteToast('⏳ 일정을 불러오는 중...', true);
 
       // JSONP 방식 - CORS 완전 우회
       const cbName = '_gasCallback_' + Date.now();
@@ -10734,6 +10794,7 @@ function showToast(message, type) {
         delete window[cbName];
         document.getElementById(cbName) && document.getElementById(cbName).remove();
         if (!result || !result.success) {
+          hideLoadingToast();
           showCuteToast('❌ ' + (result && result.error || '코드를 찾을 수 없습니다.'));
           return;
         }
@@ -10743,13 +10804,16 @@ function showToast(message, type) {
           setTimeout(function() {
             if (typeof restoreAIScheduleFromData === 'function') {
               restoreAIScheduleFromData(scheduleData);
+              hideLoadingToast();
               showCuteToast('✅ AI 일정이 복원되었습니다!');
             } else {
+              hideLoadingToast();
               showCuteToast('❌ 복원 함수를 찾을 수 없습니다.');
             }
           }, 100);
         } catch(e) {
           console.error('파싱 에러:', e);
+          hideLoadingToast();
           showCuteToast('❌ 일정 데이터 파싱 중 오류가 발생했습니다.');
         }
       };
@@ -10761,6 +10825,7 @@ function showToast(message, type) {
       script.onerror = function() {
         delete window[cbName];
         script.remove();
+        hideLoadingToast();
         showCuteToast('❌ 서버 연결 중 오류가 발생했습니다.');
       };
       document.body.appendChild(script);
@@ -10787,7 +10852,7 @@ function showToast(message, type) {
         return;
       }
 
-      showCuteToast('⏳ 서버에 저장 중...');
+      showCuteToast('⏳ 서버에 저장 중...', true);
 
       try {
         const startDate = localStorage.getItem('aiScheduleStartDate') || '';
@@ -10814,19 +10879,23 @@ function showToast(message, type) {
         google.script.run
           .withSuccessHandler(function(result) {
             if (!result || !result.success) {
+              hideLoadingToast();
               showCuteToast('❌ 저장 실패: ' + (result && result.error || ''));
               return;
             }
+            hideLoadingToast();
             showCodeModal(result.code);
           })
           .withFailureHandler(function(err) {
             console.error('저장 에러:', err);
+            hideLoadingToast();
             showCuteToast('❌ 서버 저장 중 오류가 발생했습니다.');
           })
           .saveAIScheduleWithCode(payload);
 
       } catch (err) {
         console.error('저장 에러:', err);
+        hideLoadingToast();
         showCuteToast('❌ 저장 중 오류가 발생했습니다.');
       }
     }
